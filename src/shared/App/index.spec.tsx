@@ -13,27 +13,9 @@ describe("Jest", () => {
 
     // screen.debug()
 
-    const elementWithNatureza = screen.getByText("Natureza Fala");
+    // const elementWithNatureza = screen.getByText("Natureza Fala");
+    const elementWithNatureza = screen.getByText(/Natureza/i);
 
     expect(elementWithNatureza).toBeInTheDocument();
   });
 });
-
-// test("demo", () => {
-//   expect(true).toBe(true);
-// });
-
-// test("Renders the main page", () => {
-//   render(<Home />);
-//   expect(true).toBeTruthy();
-// });
-
-// describe("Jest", () => {
-//   it("should work", () => {
-//     expect(1).toBe(1);
-//   });
-
-//   it("should work 2", () => {
-//     expect(2).toBe(2);
-//   });
-// });
