@@ -1,16 +1,32 @@
-import React from "react"
-import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import React from "react";
+// import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 import Home from "../../routes/Home";
 
-test("demo", () => {
-  expect(true).toBe(true);
+describe("Jest", () => {
+  it("should work", () => {
+    expect(1).toBe(1);
+  });
+
+  it("should display elements", () => {
+    render(<Home />);
+
+    // screen.debug()
+
+    const elementWithNatureza = screen.getByText("Natureza Fala");
+
+    expect(elementWithNatureza).toBeInTheDocument();
+  });
 });
 
-test("Renders the main page", () => {
-  render(<Home />);
-  expect(true).toBeTruthy();
-});
+// test("demo", () => {
+//   expect(true).toBe(true);
+// });
+
+// test("Renders the main page", () => {
+//   render(<Home />);
+//   expect(true).toBeTruthy();
+// });
 
 // describe("Jest", () => {
 //   it("should work", () => {
