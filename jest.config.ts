@@ -1,36 +1,33 @@
-const assetsKey = '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$'
+const assetsKey =
+  "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$";
 
 const config = {
-
   clearMocks: true,
 
   collectCoverage: true,
 
-  coverageDirectory: 'coverage',
+  coverageDirectory: "coverage",
 
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    'config/tests',
-  ],
+  coveragePathIgnorePatterns: ["/node_modules/", "config/tests"],
 
   moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1',
-    '\\.svg$': '<rootDir>/src/config/tests/mocks/svg.ts',
-    [assetsKey]: 'ts-jest',
+    "@/(.*)": "<rootDir>/src/$1",
+    "\\.svg$": "<rootDir>/src/config/tests/mocks/svg.ts",
+    // [assetsKey]: "ts-jest",
+    // "react-leaflet": "<rootDir>/src/test/__mocks __/reactLeafletMock.js",
   },
 
- 
-  roots: ['<rootDir>'],
+  roots: ["<rootDir>"],
 
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 
-  testEnvironment: 'jsdom',
+  testEnvironment: "jsdom",
 
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    [assetsKey]: 'ts-jest',
-    '\\.svg$': 'ts-jest',
+    "^.+\\.tsx?$": "ts-jest",
+    [assetsKey]: "ts-jest",
+    "\\.svg$": "ts-jest",
   },
-}
+};
 
-export default config
+export default config;
