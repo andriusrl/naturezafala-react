@@ -4,12 +4,15 @@ import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/images/marker-shadow.png";
 import { Icon, divIcon } from "leaflet";
+import { FaBeer } from 'react-icons/fa';
 
 const customIcon = new Icon({
-  iconUrl: "URL", //icone personalizado para mostrar o tipo de poluição
+  iconUrl: FaBeer, //icone personalizado para mostrar o tipo de poluição
   iconSize: [32, 32],
+
   // iconAnchor: [12, 41],
   // popupAnchor: [1, -34],
+  
 });
 
 const markingPoints = [
@@ -60,7 +63,7 @@ const markingPoints = [
 export default function Map() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
-  const [permissionStatus, setPermissionStatus] = useState<string | null>(null);
+  const [permissionStatus, setPermissionStatus] = useState<boolean | null>(null);
 
   console.log(latitude);
   console.log(longitude);
@@ -74,7 +77,7 @@ export default function Map() {
         });
 
         if (permission.state === "granted") {
-          setPermissionStatus("Permissão concedida");
+          setPermissionStatus(true);
           navigator.geolocation.getCurrentPosition(
             (position) => {
               setLatitude(position.coords.latitude);
