@@ -4,16 +4,22 @@ import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/images/marker-shadow.png";
 import { Icon, divIcon } from "leaflet";
-import { FaBeer } from 'react-icons/fa';
+// import TrashPng from "../../../assets/trash.png";
+
 
 const customIcon = new Icon({
-  iconUrl: FaBeer, //icone personalizado para mostrar o tipo de poluição
+  iconUrl: 'TrashPng', //icone personalizado para mostrar o tipo de poluição
   iconSize: [32, 32],
-
   // iconAnchor: [12, 41],
   // popupAnchor: [1, -34],
-  
 });
+
+enum typePollution {
+  trash,
+  bush,
+  nouise,
+  air,
+}
 
 const markingPoints = [
   {
@@ -63,7 +69,9 @@ const markingPoints = [
 export default function Map() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
-  const [permissionStatus, setPermissionStatus] = useState<boolean | null>(null);
+  const [permissionStatus, setPermissionStatus] = useState<boolean | null>(
+    null
+  );
 
   console.log(latitude);
   console.log(longitude);
@@ -88,13 +96,11 @@ export default function Map() {
             }
           );
         } else if (permission.state === "prompt") {
-          setPermissionStatus("Aguardando permissão do usuário");
+          setPermissionStatus(null);
         } else if (permission.state === "denied") {
-          setPermissionStatus("Permissão negada");
+          setPermissionStatus(false);
         } else if (permission.state === "unavailable") {
-          setPermissionStatus(
-            "A API de geolocalização não está disponível no navegador"
-          );
+          setPermissionStatus(null);
         }
       } catch (error) {
         console.error("Erro ao verificar a permissão:", error);
@@ -106,6 +112,7 @@ export default function Map() {
 
   return (
     <div>
+      <img  />
       <div id="map">
         {latitude && longitude && (
           <MapContainer
