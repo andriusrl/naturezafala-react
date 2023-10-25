@@ -12,6 +12,51 @@ const customIcon = new Icon({
   // popupAnchor: [1, -34],
 });
 
+const markingPoints = [
+  {
+    id: 1,
+    name: "lixo na rua",
+    description: "lixo na rua com mau cheiro e etc................",
+    latitude: -22.211874,
+    longitude: -54.828174,
+  },
+  {
+    id: 2,
+    name: "lixo na rua",
+    description: "lixo na rua com mau cheiro e etc................",
+    latitude: -22.213652,
+    longitude: -54.829611,
+  },
+  {
+    id: 3,
+    name: "lixo na rua",
+    description: "lixo na rua com mau cheiro e etc................",
+    latitude: -22.213652,
+    longitude: -54.829611,
+  },
+  {
+    id: 4,
+    name: "lixo na rua",
+    description: "lixo na rua com mau cheiro e etc................",
+    latitude: -22.217721,
+    longitude: -54.83458,
+  },
+  {
+    id: 5,
+    name: "lixo na rua",
+    description: "lixo na rua com mau cheiro e etc................",
+    latitude: -22.211296,
+    longitude: -54.831716,
+  },
+  {
+    id: 6,
+    name: "lixo na rua",
+    description: "lixo na rua com mau cheiro e etc................",
+    latitude: -22.211874,
+    longitude: -54.828174,
+  },
+];
+
 export default function Map() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -86,12 +131,23 @@ export default function Map() {
               </Popup>
             </Marker>
 
-            <Marker position={[-22.211874, -54.828174]}>
-              <Popup>
-                Sua localização atual 2. <br /> Lat: {-22.211874}, Lng:{" "}
-                {-54.828174}
-              </Popup>
-            </Marker>
+            {markingPoints.map((point) => {
+              return (
+                <Marker
+                  key={point.id}
+                  position={[point.latitude, point.longitude]}
+                >
+                  <Popup>
+                    {point.name},{point.description} <br /> Lat:{" "}
+                    {point.latitude}, Lng:
+                    {point.longitude}
+                    {-54.828174}
+                  </Popup>
+                </Marker>
+              );
+            })}
+
+            {}
           </MapContainer>
         )}
       </div>
