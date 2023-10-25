@@ -70,10 +70,21 @@ export default function Map() {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-
-            <Marker position={[51.505, -0.09]}>
+            {/* <Marker position={[latitude, longitude]}>
               <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
+                Sua localização atual. <br /> Lat: {latitude}, Lng: {longitude}
+              </Popup>
+            </Marker> */}
+
+            <Marker position={[latitude, longitude]}>
+              <Popup>
+                Sua localização atual 2. <br /> Lat: {latitude}, Lng: {longitude}
+              </Popup>
+            </Marker>
+            
+            <Marker position={[-22.211874, -54.828174]}>
+              <Popup>
+                Sua localização atual 2. <br /> Lat: {-22.211874}, Lng: {-54.828174}
               </Popup>
             </Marker>
           </MapContainer>
