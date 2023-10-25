@@ -21,22 +21,6 @@ export default function Map() {
   console.log(longitude);
   console.log(permissionStatus);
 
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         setLatitude(position.coords.latitude);
-  //         setLongitude(position.coords.longitude);
-  //       },
-  //       (error) => {
-  //         console.error("Error:", error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error("Geolocation is not supported by your browser.");
-  //   }
-  // }, []);
-
   useEffect(() => {
     const checkPermission = async () => {
       try {
@@ -75,23 +59,25 @@ export default function Map() {
   return (
     <div>
       <div id="map">
-        <MapContainer
-          center={[51.505, -0.09]}
-          zoom={13}
-          scrollWheelZoom={false}
-          style={{ height: "100vh", width: "100wh" }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+        {latitude && longitude && (
+          <MapContainer
+            center={[latitude, longitude]}
+            zoom={13}
+            scrollWheelZoom={false}
+            style={{ height: "100vh", width: "100wh" }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
 
-          <Marker position={[51.505, -0.09]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
-        </MapContainer>
+            <Marker position={[51.505, -0.09]}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          </MapContainer>
+        )}
       </div>
     </div>
   );
