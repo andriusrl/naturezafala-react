@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.css";
@@ -12,6 +12,65 @@ export default function Map() {
   //     zoom: 13,
   //   }
   // )
+
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
+  const [permissionStatus, setPermissionStatus] = useState<string | null>(null);
+
+  console.log(latitude);
+  console.log(longitude);
+  console.log(permissionStatus);
+
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         setLatitude(position.coords.latitude);
+  //         setLongitude(position.coords.longitude);
+  //       },
+  //       (error) => {
+  //         console.error("Error:", error);
+  //       }
+  //     );
+  //   } else {
+  //     console.error("Geolocation is not supported by your browser.");
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    const checkPermission = async () => {
+      try {
+        const permission = await navigator.permissions.query({
+          name: "geolocation",
+        });
+
+        if (permission.state === "granted") {
+          setPermissionStatus("Permissão concedida");
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              setLatitude(position.coords.latitude);
+              setLongitude(position.coords.longitude);
+            },
+            (error) => {
+              console.error("Erro ao obter a localização:", error);
+            }
+          );
+        } else if (permission.state === "prompt") {
+          setPermissionStatus("Aguardando permissão do usuário");
+        } else if (permission.state === "denied") {
+          setPermissionStatus("Permissão negada");
+        } else if (permission.state === "unavailable") {
+          setPermissionStatus(
+            "A API de geolocalização não está disponível no navegador"
+          );
+        }
+      } catch (error) {
+        console.error("Erro ao verificar a permissão:", error);
+      }
+    };
+
+    checkPermission();
+  }, []);
 
   return (
     <div>
