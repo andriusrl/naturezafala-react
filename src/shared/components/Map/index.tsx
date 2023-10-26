@@ -7,12 +7,10 @@ import { Icon, divIcon } from "leaflet";
 import TrashPng from "../../../assets/lata-de-lixo.png";
 
 
-// const customIcon = new Icon({
-//   iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
-//   iconSize: [32, 32],
-//   // iconAnchor: [12, 41],
-//   // popupAnchor: [1, -34],
-// });
+const customIcon = new Icon({
+  iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
+  iconSize: [32, 32]
+});
 
 enum typePollution {
   trash,
@@ -149,11 +147,11 @@ export default function Map() {
             />
 
             {/* MARCADOR PERSONALIZADO */}
-            {/* <Marker position={[latitude, longitude]} icon={TrashPng}>
+            <Marker position={[latitude, longitude]} icon={customIcon}>
               <Popup>
                 Sua localização atual. <br /> Lat: {latitude}, Lng: {longitude}
               </Popup>
-            </Marker> */}
+            </Marker>
             {/* NÃO APAGAR */}
 
             {/* <Marker position={[latitude, longitude]}>
