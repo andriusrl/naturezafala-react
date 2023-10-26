@@ -1,29 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { BsSearch } from 'react-icons/bs';
 
 const Navbar = () => {
+  const [menu, setMenu] = useState(false)
+  const handleMenu = () => setMenu(!menu)
+
   return (
-    <div className="h-14">
-      <div className="flex font-extrabold h-full">
-        <div className="h-fit my-auto text-4xl ml-2">
+    <div className="">
+      <div className={`flex font-extrabold h-full`}>
+        <div className={`h-fit my-auto text-4xl ml-2`}>
           <span className="text-[#0A5B0D]">Natureza</span>
           <span className="text-[#944B0A]">Fala</span>
         </div>
         <div className="flex ml-auto mr-2">
           <BsSearch className="my-auto w-fit  mr-3" size={33} color="#0A5B0D" />
-          <GiHamburgerMenu className="my-auto w-fit" size={46} color="#944B0A"/>
+          <GiHamburgerMenu className="my-auto w-fit" size={46} color="#944B0A" onClick={handleMenu} />
         </div>
       </div>
-      {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" color="black">
-        <path d="M2 6h20M2 12h20M2 18h20" />
-      </svg> */}
-      <nav className="hidden">
-        <Link to="/">Página inicial</Link>
-        <Link to="/entrar">Entrar</Link>
-        <Link to="/cadastrar">Cadastrart</Link>
-      </nav>
+      <div className={`mb-2 flex justify-center items-center font-semibold ${menu ? "" : "hidden"}`}>
+        <Link to="/" className="bg-slate-200 rounded-lg p-2">Página inicial</Link>
+        <span className="mx-2">|</span>
+        <Link to="/entrar" className="bg-slate-200 rounded-lg p-2">Entrar</Link>
+        <span className="mx-2">|</span>
+        <Link to="/cadastrar" className="bg-slate-200 rounded-lg p-2">Cadastrar</Link>
+      </div>
     </div>
   );
 };
