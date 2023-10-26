@@ -110,9 +110,32 @@ export default function Map() {
     checkPermission();
   }, []);
 
+  const requestLocationPermission = async () => {
+    try {
+      const permission = await navigator.permissions.query({
+        name: "geolocation",
+      });
+
+      if (permission.state === "prompt") {
+        // Apenas solicite permissão se estiver no estado "prompt"
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+          },
+          (error) => {
+            console.error("Erro ao obter a localização:", error);
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao verificar a permissão:", error);
+    }
+  };
+
   return (
     <div>
-      <img  />
+      <img />
       <div id="map">
         {latitude && longitude && (
           <MapContainer
@@ -157,9 +180,10 @@ export default function Map() {
               );
             })}
 
-            {}
+            { }
           </MapContainer>
         )}
+        {latitude === null && <button onClick={requestLocationPermission}>Permitir Localização</button>}
       </div>
     </div>
   );
