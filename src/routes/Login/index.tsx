@@ -28,6 +28,7 @@ export default function Login() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-2 mx-2 border">
         <div className="flex-col w-fit mx-auto">
+          <h2 className="w-fit mx-auto text-3xl">Faça seu login</h2>
           <div className="mt-2">
             <input placeholder="E-mail" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("email", { required: true })} />
             {errors.email && <div className="w-fit mt-1 text-red-600">É necessário colocar o email</div>}
