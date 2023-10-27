@@ -136,10 +136,11 @@ export default function Map() {
       <div id="map">
         {latitude && longitude && (
           <MapContainer
+
             center={[latitude, longitude]}
             zoom={13}
             scrollWheelZoom={false}
-            style={{ height: "87vh", width: "100wh" }}
+            style={{ height: "65vh", width: "100wh" }}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -178,7 +179,12 @@ export default function Map() {
             })} */}
           </MapContainer>
         )}
-        {latitude === null && <button onClick={requestLocationPermission}>Permitir Localização</button>}
+        {latitude === null && <div className="p-2 mx-2 border">
+          <div>Para ver o mapa na sua localização é necessário permissão para acessar o local clique abaixo para permitir</div>
+          <div className="flex justify-center">
+            <button className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl" onClick={requestLocationPermission}>Permitir Localização</button>
+          </div>
+        </div>}
       </div>
     </div>
   );
