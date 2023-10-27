@@ -139,7 +139,7 @@ export default function Map() {
             center={[latitude, longitude]}
             zoom={13}
             scrollWheelZoom={false}
-            style={{ height: "100vh", width: "100wh" }}
+            style={{ height: "87vh", width: "100wh" }}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
