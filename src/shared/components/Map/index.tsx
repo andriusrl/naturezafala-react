@@ -180,9 +180,9 @@ export default function Map() {
           </MapContainer>
         )}
         {latitude === null && <div className="p-2 mx-2 border">
-          <div>Para ver o mapa na sua localização é necessário permissão para acessar o local clique abaixo para permitir</div>
+          <div>Para ver o mapa na sua localização é necessário permissão para acessar o local clique abaixo para permitir.</div>
           <div className="flex justify-center">
-            <button className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl" onClick={requestLocationPermission}>Permitir Localização</button>
+            <button className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl" onClick={requestLocationPermission}>Permitir Localização</button>
           </div>
         </div>}
       </div>
