@@ -5,10 +5,16 @@ import "leaflet/dist/leaflet.css";
 import "leaflet/dist/images/marker-shadow.png";
 import { Icon, divIcon } from "leaflet";
 import PersonPng from "../../../assets/person.png";
+import TrashPng from "../../../assets/trash.png";
 
 
 const customPersonIcon = new Icon({
   iconUrl: PersonPng, //icone personalizado para mostrar o tipo de poluição
+  iconSize: [32, 32]
+});
+
+const customTrashIcon = new Icon({
+  iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
   iconSize: [32, 32]
 });
 
@@ -160,13 +166,14 @@ export default function Map() {
                 Sua localização atual 2. <br /> Lat: {latitude}, Lng:{longitude}
                 {longitude}
               </Popup>
-            </Marker>
+            </Marker> */}
 
             {markingPoints.map((point) => {
               return (
                 <Marker
                   key={point.id}
                   position={[point.latitude, point.longitude]}
+                  icon={customTrashIcon}
                 >
                   <Popup>
                     {point.name},{point.description} <br /> Lat:{" "}
@@ -176,7 +183,7 @@ export default function Map() {
                   </Popup>
                 </Marker>
               );
-            })} */}
+            })}
           </MapContainer>
         )}
         {latitude === null && <div className="p-2 mx-2 border">
