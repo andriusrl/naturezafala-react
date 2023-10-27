@@ -176,10 +176,12 @@ export default function Map() {
                   icon={customTrashIcon}
                 >
                   <Popup>
-                    {point.name},{point.description} <br /> Lat:{" "}
-                    {point.latitude}, Lng:
-                    {point.longitude}
-                    {-54.828174}
+                    {point.name},{point.description} <br />
+                    <div className="bg-slate-300 w-fit p-2 rounded-xl mx-auto">
+                      fotos e informações
+                    </div>
+                    {/* Lat:{point.latitude},
+                    Lng:{point.longitude} */}
                   </Popup>
                 </Marker>
               );
