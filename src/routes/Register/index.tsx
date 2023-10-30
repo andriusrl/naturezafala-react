@@ -8,8 +8,9 @@ export default function Register() {
     email: string;
     password: string;
     birthDate: Date;
-    fone: string;
+    fone: number;
     cpf: string;
+    confirmPassword: string;
   }
 
   const {
@@ -47,23 +48,28 @@ export default function Register() {
           </div>
 
           <div className="mt-2">
-            <input placeholder="Data de nascimento" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("birthDate", { required: true })} />
+            <input type="date" placeholder="Data de nascimento" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("birthDate", { required: true })} />
             {errors.birthDate && <div className="w-fit mt-1 text-red-600">É necessário colocar a data de nascimento</div>}
           </div>
 
           <div className="mt-2">
-            <input placeholder="Telefone" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("fone", { required: true })} />
+            <input maxLength={12} placeholder="Telefone" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("fone", { required: true })} />
             {errors.fone && <div className="w-fit mt-1 text-red-600">É necessário colocar o telefone</div>}
           </div>
 
           <div className="mt-2">
-            <input placeholder="CPF" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("cpf", { required: true })} />
+            <input maxLength={11} placeholder="CPF" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("cpf", { required: true })} />
             {errors.cpf && <div className="w-fit mt-1 text-red-600">É necessário colocar o cpf</div>}
           </div>
 
           <div className="mt-2">
-            <input placeholder="Senha" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("password", { required: true })} />
+            <input maxLength={30} placeholder="Senha" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("password", { required: true })} />
             {errors.password && <div className="w-fit mt-1 text-red-600">É necessário colocar a senha</div>}
+          </div>
+
+          <div className="mt-2">
+            <input maxLength={30} placeholder="Senha" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("confirmPassword", { required: true })} />
+            {errors.confirmPassword && <div className="w-fit mt-1 text-red-600">É necessário confirmar a senha</div>}
           </div>
         </div>
         <div className="flex justify-center mt-2">
