@@ -6,6 +6,7 @@ import "leaflet/dist/images/marker-shadow.png";
 import { Icon, divIcon } from "leaflet";
 import PersonPng from "../../../assets/person.png";
 import TrashPng from "../../../assets/trash.png";
+import api from "../../../config/axios/api";
 
 
 const customPersonIcon = new Icon({
@@ -25,61 +26,30 @@ enum typePollution {
   air,
 }
 
-const markingPoints = [
-  {
-    id: 1,
-    name: "lixo na rua",
-    description: "lixo na rua com mau cheiro e etc................",
-    latitude: -22.211874,
-    longitude: -54.828174,
-  },
-  {
-    id: 2,
-    name: "lixo na rua",
-    description: "lixo na rua com mau cheiro e etc................",
-    latitude: -22.213652,
-    longitude: -54.829611,
-  },
-  {
-    id: 3,
-    name: "lixo na rua",
-    description: "lixo na rua com mau cheiro e etc................",
-    latitude: -22.213652,
-    longitude: -54.829611,
-  },
-  {
-    id: 4,
-    name: "lixo na rua",
-    description: "lixo na rua com mau cheiro e etc................",
-    latitude: -22.217721,
-    longitude: -54.83458,
-  },
-  {
-    id: 5,
-    name: "lixo na rua",
-    description: "lixo na rua com mau cheiro e etc................",
-    latitude: -22.211296,
-    longitude: -54.831716,
-  },
-  {
-    id: 6,
-    name: "lixo na rua",
-    description: "lixo na rua com mau cheiro e etc................",
-    latitude: -22.211874,
-    longitude: -54.828174,
-  },
-];
-
 export default function Map() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
+
+  const [markingPoints, setMarkingPoints] = useState<any[]>([]);
+
   const [permissionStatus, setPermissionStatus] = useState<boolean | null>(
     null
   );
 
-  console.log(latitude);
-  console.log(longitude);
-  console.log(permissionStatus);
+  // console.log(latitude);
+  // console.log(longitude);
+  // console.log(permissionStatus);
+
+  const getPoints = async () => {
+    const response = await api.get('/point')
+    console.log('response', response.data)
+
+    setMarkingPoints(response.data)
+  }
+
+  useEffect(() => {
+    getPoints();
+  }, [])
 
   useEffect(() => {
     const checkPermission = async () => {

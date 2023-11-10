@@ -16,7 +16,9 @@ export default function Login() {
   } = useForm<loginType>()
 
 
-  const onSubmit: SubmitHandler<loginType> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<loginType> = (data) => {
+    console.log(data)
+  }
 
   console.log(watch("email"))
 
