@@ -36,10 +36,6 @@ export default function Map() {
     null
   );
 
-  // console.log(latitude);
-  // console.log(longitude);
-  // console.log(permissionStatus);
-
   const getPoints = async () => {
     const response = await api.get('/point')
     console.log('response', response.data)

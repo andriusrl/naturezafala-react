@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { GiHamburgerMenu } from 'react-icons/gi';
 import { BsSearch } from 'react-icons/bs';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { useSelector, useDispatch } from "react-redux";
+import { token } from "../../../config/localStorage/localStorage";
+import { useAppSelector } from "../../../hooks";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false)
   const handleMenu = () => setMenu(!menu)
+  const user = useAppSelector((state) => state.user);
+
+  const [showLoginRegister, setLoginRegister] = useState(false)
+
+  console.log('user', user)
+
+  useEffect(() => {
+    if (user.token !== null) {
+      return setLoginRegister(false)
+    }
+    return setLoginRegister(true)
+  }, [user.token])
+
+  const handleLogout = () => {
+    token.remove()
+    // setLoginRegister(null)
+  }
 
   return (
     <div className="">
@@ -21,10 +41,17 @@ const Navbar = () => {
       </div>
       <div className={`mb-2 flex justify-center items-center font-semibold ${menu ? "" : "hidden"}`}>
         <Link to="/" className="bg-slate-200 rounded-lg p-2">Página inicial</Link>
-        <span className="mx-2">|</span>
-        <Link to="/entrar" className="bg-slate-200 rounded-lg p-2">Entrar</Link>
-        <span className="mx-2">|</span>
-        <Link to="/cadastrar" className="bg-slate-200 rounded-lg p-2">Cadastrar</Link>
+        {showLoginRegister && <>
+          <span className="mx-2">|</span>
+          <Link to="/entrar" className="bg-slate-200 rounded-lg p-2">Entrar</Link>
+          <span className="mx-2">|</span>
+          <Link to="/cadastrar" className="bg-slate-200 rounded-lg p-2">Cadastrar</Link>
+        </>}
+        {!showLoginRegister && <>
+          <span className="mx-2">|</span>
+          <span onClick={handleLogout} className="bg-slate-200 rounded-lg p-2">Sair</span>
+        </>}
+
       </div>
     </div>
   );

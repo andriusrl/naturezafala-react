@@ -1,10 +1,16 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import api from "../../config/axios/api";
+import { token } from "../../config/localStorage/localStorage";
+import { setToken } from "../../features/user/user-slice";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
 
+  const dispatch = useDispatch();
+
   type loginType = {
-    email: string
+    username: string
     password: string
   }
 
@@ -18,13 +24,18 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<loginType> = (data) => {
     console.log(data)
+    handleLogin(data)
   }
 
-  console.log(watch("email"))
+  // console.log(watch("username"))
 
-  // const handleLogin = () => {
-  //   console.log('logou')
-  // }
+  const handleLogin = async (data) => {
+    const response = await api.post('/auth/login', data)
+
+    token.set(response.data.token)
+
+    dispatch(setToken(response.data.token))
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -32,12 +43,12 @@ export default function Login() {
         <div className="flex-col w-fit mx-auto">
           <h2 className="w-fit mx-auto text-3xl">Faça seu login</h2>
           <div className="mt-2">
-            <input placeholder="E-mail" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("email", { required: true })} />
-            {errors.email && <div className="w-fit mt-1 text-red-600">É necessário colocar o email</div>}
+            <input placeholder="E-mail" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("username", { required: true })} />
+            {errors.username && <div className="w-fit mt-1 text-red-600">É necessário colocar o email</div>}
           </div>
 
           <div className="mt-2">
-            <input placeholder="Senha" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("password", { required: true })} />
+            <input placeholder="Senha" type="password" className="text-2xl pl-2 border border-slate-400 rounded-md" {...register("password", { required: true })} />
             {errors.password && <div className="w-fit mt-1 text-red-600">É necessário colocar a senha</div>}
           </div>
         </div>
