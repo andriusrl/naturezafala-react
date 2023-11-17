@@ -1,11 +1,15 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import api from "../../config/axios/api";
-import { token } from "../../config/localStorage/localStorage";
-import { setToken, setUserName } from "../../features/user/user-slice";
+import { user as userStorage } from "../../config/localStorage/localStorage";
+// import { setToken, setUserName } from "../../features/user/user-slice";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks";
+import { setToken, setName } from "../../features/user/user-slice";
 
 export default function Login() {
+
+  const user = useAppSelector((state) => state.user)
 
   const dispatch = useDispatch();
 
@@ -23,7 +27,7 @@ export default function Login() {
 
 
   const onSubmit: SubmitHandler<loginType> = (data) => {
-    console.log(data)
+    // console.log(data)
     handleLogin(data)
   }
 
@@ -32,10 +36,19 @@ export default function Login() {
   const handleLogin = async (data) => {
     const response = await api.post('/auth/login', data)
 
-    // token.set(response.data.token)
+    userStorage.setToken(response.data.token)
+    userStorage.setName(response.data.name)
 
-    // dispatch(setToken(response.data.token))
-    // dispatch(setUserName(response.data.token))
+    dispatch(setToken(response.data.token))
+    dispatch(setName(response.data.name))
+  }
+
+  const handleLogout = async (data) => {
+
+    userStorage.remove()
+
+    dispatch(setToken(null))
+    dispatch(setName(response.data.name))
   }
 
   return (

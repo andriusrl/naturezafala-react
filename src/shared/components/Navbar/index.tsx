@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 import { BsSearch } from 'react-icons/bs';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useSelector, useDispatch } from "react-redux";
-import { token } from "../../../config/localStorage/localStorage";
+import { user as useStorage } from "../../../config/localStorage/localStorage";
+import { setToken, setName } from "../../../features/user/user-slice";
 import { useAppSelector } from "../../../hooks";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false)
   const handleMenu = () => setMenu(!menu)
   const user = useAppSelector((state) => state.user);
+
+  const dispatch = useDispatch();
 
   const [showLoginRegister, setLoginRegister] = useState(false)
 
@@ -23,7 +26,9 @@ const Navbar = () => {
   }, [user.token])
 
   const handleLogout = () => {
-    token.remove()
+    useStorage.remove()
+    dispatch(setToken(null))
+    dispatch(setName(null))
     // setLoginRegister(null)
   }
 
@@ -49,7 +54,7 @@ const Navbar = () => {
         </>}
         {!showLoginRegister && <>
           <span className="mx-2">|</span>
-          <span onClick={handleLogout} className="bg-slate-200 rounded-lg p-2">Sair</span>
+          <span onClick={handleLogout} className="bg-slate-200 rounded-lg p-2 cursor-pointer">Sair</span>
         </>}
 
       </div>
