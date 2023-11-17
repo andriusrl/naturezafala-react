@@ -9,6 +9,7 @@ import Register from "./routes/Register";
 import Login from "./routes/Login";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import MarkPoint from "./routes/MarkPoint";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,8 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "/cadastrar", element: <Register /> },
       { path: "/entrar", element: <Login /> },
+      { path: "/marcarponto/:pointId", element: <MarkPoint /> },
+      { path: "/marcarponto", element: <MarkPoint /> },
     ],
   },
 ]);
