@@ -1,13 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { user as userStorage } from "../../config/localStorage/localStorage";
 
 interface UserState {
   token: string | null;
   name: string | null;
+  lat: number | null;
+  long: number | null;
+  menuPollutionTypeStatus: boolean;
 }
 
 const initialState: UserState = {
-  token: null,
-  name: null,
+  token: userStorage.getToken(),
+  name: userStorage.getName(),
+  lat: null,
+  long: null,
+  menuPollutionTypeStatus: false,
 };
 
 export const userSlice = createSlice({
@@ -20,8 +27,17 @@ export const userSlice = createSlice({
     setName: (state, action: PayloadAction<string | null>) => {
       state.name = action.payload;
     },
+    setLat: (state, action: PayloadAction<number | null>) => {
+      state.lat = action.payload;
+    },
+    setLong: (state, action: PayloadAction<number | null>) => {
+      state.long = action.payload;
+    },
+    setMenuPollutionTypeStatus: (state, action: PayloadAction<boolean>) => {
+      state.menuPollutionTypeStatus = action.payload;
+    },
   },
 });
 
-export const { setToken, setName } = userSlice.actions;
+export const { setToken, setName, setLat, setLong, setMenuPollutionTypeStatus } = userSlice.actions;
 export const userReducer = userSlice.reducer;

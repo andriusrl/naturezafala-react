@@ -7,16 +7,17 @@ import { Icon, divIcon } from "leaflet";
 import PersonPng from "../../../assets/person.png";
 import TrashPng from "../../../assets/trash.png";
 import api from "../../../config/axios/api";
-
+import { useDispatch } from "react-redux";
+import { setLat, setLong } from "../../../features/user/user-slice";
 
 const customPersonIcon = new Icon({
   iconUrl: PersonPng, //icone personalizado para mostrar o tipo de poluição
-  iconSize: [32, 32]
+  iconSize: [32, 32],
 });
 
 const customTrashIcon = new Icon({
   iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
-  iconSize: [32, 32]
+  iconSize: [32, 32],
 });
 
 enum typePollution {
@@ -27,6 +28,8 @@ enum typePollution {
 }
 
 export default function Map() {
+  const dispatch = useDispatch();
+
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
 
@@ -37,15 +40,20 @@ export default function Map() {
   );
 
   const getPoints = async () => {
-    const response = await api.get('/point')
-    console.log('response', response.data)
+    const response = await api.get("/point");
+    console.log("response", response.data);
 
-    setMarkingPoints(response.data)
-  }
+    setMarkingPoints(response.data);
+  };
 
   useEffect(() => {
     getPoints();
-  }, [])
+  }, []);
+
+  if (latitude && longitude) {
+    dispatch(setLat(latitude));
+    dispatch(setLong(latitude));
+  }
 
   useEffect(() => {
     const checkPermission = async () => {
@@ -108,7 +116,6 @@ export default function Map() {
       <div id="map">
         {latitude && longitude && (
           <MapContainer
-
             center={[latitude, longitude]}
             zoom={13}
             scrollWheelZoom={false}
@@ -154,12 +161,22 @@ export default function Map() {
             })}
           </MapContainer>
         )}
-        {latitude === null && <div className="p-2 mx-2 border">
-          <div>Para ver o mapa na sua localização é necessário permissão para acessar o local clique abaixo para permitir.</div>
-          <div className="flex justify-center">
-            <button className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl" onClick={requestLocationPermission}>Permitir Localização</button>
+        {latitude === null && (
+          <div className="p-2 mx-2 border">
+            <div>
+              Para ver o mapa na sua localização é necessário permissão para
+              acessar o local clique abaixo para permitir.
+            </div>
+            <div className="flex justify-center">
+              <button
+                className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+                onClick={requestLocationPermission}
+              >
+                Permitir Localização
+              </button>
+            </div>
           </div>
-        </div>}
+        )}
       </div>
     </div>
   );
