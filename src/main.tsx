@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "/cadastrar", element: <Register /> },
       { path: "/entrar", element: <Login /> },
-      { path: "/marcarponto/:pointId", element: <MarkPoint /> },
+      { path: "/marcarponto/:pollutionTypeId", element: <MarkPoint /> },
       { path: "/marcarponto", element: <MarkPoint /> },
     ],
   },

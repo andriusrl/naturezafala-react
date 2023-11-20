@@ -52,7 +52,7 @@ export default function Map() {
 
   if (latitude && longitude) {
     dispatch(setLat(latitude));
-    dispatch(setLong(latitude));
+    dispatch(setLong(longitude));
   }
 
   useEffect(() => {

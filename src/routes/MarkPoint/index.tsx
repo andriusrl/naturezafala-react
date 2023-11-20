@@ -34,10 +34,9 @@ export default function MarkPoint() {
     const response = await api.post("/point", {
       name: data.name,
       description: data.description,
-      date: new Date(),
       latitude: user.lat,
       longitude: user.long,
-      pollutionTypeId,
+      pollution_type: pollutionTypeId,
     });
 
     console.log("response", response.data);
