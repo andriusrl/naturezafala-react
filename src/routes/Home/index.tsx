@@ -16,12 +16,22 @@ export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log("user.menuPollutionTypeStatus");
-  console.log(user.menuPollutionTypeStatus);
+  const checkLogged = async () => {
+    const response = await api.get("/user/logged", {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    return response ? true : false;
+  };
 
-  const handleMenuMarkPoint = () => {
-    // setMenuMarkStatus(!menuMarkStatus);
-    dispatch(setMenuPollutionTypeStatus(!user.menuPollutionTypeStatus));
+  const handleMenuMarkPoint = async () => {
+    const logged = await checkLogged();
+
+    logged
+      ? dispatch(setMenuPollutionTypeStatus(!user.menuPollutionTypeStatus))
+      : () => {
+          alert("Você precisa estar logado para marcar um ponto");
+          navigate("/entrar");
+        };
   };
 
   const handleMarkPoint = async (pollutionTypeId) => {
@@ -36,6 +46,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    dispatch(setMenuPollutionTypeStatus(false));
     getPollutionType();
     dispatch(setMenuPollutionTypeStatus(false));
   }, []);

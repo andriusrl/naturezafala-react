@@ -35,11 +35,11 @@ export default function Login() {
   const handleLogin = async (data) => {
     const response = await api.post("/auth/login", data);
 
-    userStorage.setToken(response.data.token);
-    userStorage.setName(response.data.name);
+    await userStorage.setToken(response.data.token);
+    await userStorage.setName(response.data.name);
 
-    dispatch(setToken(response.data.token));
-    dispatch(setName(response.data.name));
+    await dispatch(setToken(response.data.token));
+    await dispatch(setName(response.data.name));
 
     navigate(`/`);
   };
