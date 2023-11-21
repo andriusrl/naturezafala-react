@@ -10,6 +10,7 @@ import Login from "./routes/Login";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import MarkPoint from "./routes/MarkPoint";
+import Point from "./routes/Point";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +18,30 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "/cadastrar", element: <Register /> },
-      { path: "/entrar", element: <Login /> },
-      { path: "/marcarponto/:pollutionTypeId", element: <MarkPoint /> },
-      { path: "/marcarponto", element: <MarkPoint /> },
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/cadastrar",
+        element: <Register />,
+      },
+      {
+        path: "/entrar",
+        element: <Login />,
+      },
+      {
+        path: "/ponto/:pointId",
+        element: <Point />,
+      },
+      {
+        path: "/marcarponto/:pollutionTypeId",
+        element: <MarkPoint />,
+      },
+      {
+        path: "/marcarponto",
+        element: <MarkPoint />,
+      },
     ],
   },
 ]);
