@@ -69,18 +69,15 @@ export default function Point() {
     setPoint({ ...response.data, date: dateFormated });
   };
 
-  const getImageByPoint = async () => {
-    const response = await api.get(`/image/point/${pointId}`);
-
-    setImages(response.data);
-  };
-
   const getCommentByPoint = async () => {
-    const response = await api.get(`/comment/point/${pointId}`);
+    const response = await api.get(
+      `/comment/point/${pointId}?page=${pageComments}&limit=${12}`
+    );
+
     console.log("response find comments", response.data);
 
-    setComments(
-      response.data.map((comment: any) => {
+    setComments({
+      items: response.data.items.map((comment: any) => {
         const dateString = new Date(comment.date).toDateString();
 
         const data = new Date(dateString);
@@ -90,8 +87,20 @@ export default function Point() {
           useAdditionalDayOfYearTokens: true,
         });
         return { comment: comment.comment, date: dateFormated };
-      })
-    );
+      }),
+      meta: response.data.meta,
+    });
+  };
+
+  const getImageByPoint = async () => {
+    const response = await api.get(`/image/point/${pointId}`);
+
+    setImages(response.data);
+  };
+
+  const handlePageComment = (value) => {
+    setPageComments(value.selected);
+    getCommentByPoint();
   };
 
   useEffect(() => {
@@ -99,6 +108,8 @@ export default function Point() {
     getImageByPoint();
     getCommentByPoint();
   }, []);
+
+  console.log("comments", comments);
 
   return updateStatus ? (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -210,7 +221,7 @@ export default function Point() {
               <h2 className="w-fit mx-auto text-3xl">Comentários</h2>
             </div>
             {comments &&
-              comments.map((comment) => (
+              comments.items.map((comment) => (
                 <div className="flex border mt-1 p-1">
                   <p className="text-lg">{comment.comment}</p>
                   <p className="w-fit ml-auto">{comment.date}</p>
@@ -221,11 +232,11 @@ export default function Point() {
             <ReactPaginate
               containerClassName="pagination"
               breakLabel="..."
-              nextLabel="next >"
-              // onPageChange={handlePageClick}
+              nextLabel="proxima >"
+              onPageChange={handlePageComment}
               pageRangeDisplayed={5}
-              pageCount={123}
-              // previousLabel="< previous"
+              pageCount={comments?.meta?.totalPages}
+              previousLabel="< anterior"
               renderOnZeroPageCount={null}
             />
           </div>
