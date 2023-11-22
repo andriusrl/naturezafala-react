@@ -228,15 +228,18 @@ export default function Point() {
                 </div>
               ))}
           </div>
-          <div className="flex w-full mt-4">
+          <div className="mt-4 w-fit mx-auto">
             <ReactPaginate
               containerClassName="pagination"
               breakLabel="..."
-              nextLabel="proxima >"
+              nextLabel=" >"
               onPageChange={handlePageComment}
-              pageRangeDisplayed={5}
+              // pageRangeDisplayed={7}
+
+              pageRangeDisplayed={2}
+
               pageCount={comments?.meta?.totalPages}
-              previousLabel="< anterior"
+              previousLabel="< "
               renderOnZeroPageCount={null}
             />
           </div>
