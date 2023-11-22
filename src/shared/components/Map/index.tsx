@@ -9,6 +9,7 @@ import TrashPng from "../../../assets/trash.png";
 import api from "../../../config/axios/api";
 import { useDispatch } from "react-redux";
 import { setLat, setLong } from "../../../features/user/user-slice";
+const apiUrl = import.meta.env.VITE_SITEURL;
 
 const customPersonIcon = new Icon({
   iconUrl: PersonPng, //icone personalizado para mostrar o tipo de poluição
@@ -150,9 +151,11 @@ export default function Map() {
                 >
                   <Popup>
                     {point.name},{point.description} <br />
-                    <div className="bg-slate-300 w-fit p-2 rounded-xl mx-auto">
-                      fotos e informações
-                    </div>
+                    <a href={apiUrl + "/ponto/" + point.id}>
+                      <button className="bg-slate-300 w-fit p-2 rounded-xl mx-auto">
+                        fotos e informações
+                      </button>
+                    </a>
                     {/* Lat:{point.latitude},
                     Lng:{point.longitude} */}
                   </Popup>
