@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
+import { Carousel } from "react-responsive-carousel";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 export default function Point() {
   const { pointId } = useParams();
@@ -51,9 +53,20 @@ export default function Point() {
 
   const getPoint = async () => {
     const response = await api.get(`/point/${pointId}`);
-    // console.log("response find one point", response.data);
 
-    setPoint(response.data);
+    const dateString = new Date(response.data.date).toDateString();
+
+    console.log('response.data.date.toDateString()')
+    console.log(dateString)
+
+    const data = new Date(dateString);
+
+    const dateFormated = format(data, "dd/MM/yyyy", {
+      locale: ptBR,
+      useAdditionalDayOfYearTokens: true,
+    });
+
+    setPoint({ ...response.data, date: dateFormated });
   };
 
   const getImageByPoint = async () => {
@@ -81,15 +94,15 @@ export default function Point() {
           </div>
           <div className="">
             <h2 className="w-fit mx-auto text-3xl">Fotos</h2>
-            {images && <Carousel>
-              {images.map((image) => (
-                <div>
-                  <img alt={image?.point?.name} src={image?.url} />
-                </div>
-              ))}
-            </Carousel>
-            }
-
+            {images && (
+              <Carousel>
+                {images.map((image) => (
+                  <div>
+                    <img alt={image?.point?.name} src={image?.url} />
+                  </div>
+                ))}
+              </Carousel>
+            )}
           </div>
           <div className="flex justify-center mt-2">
             <button
