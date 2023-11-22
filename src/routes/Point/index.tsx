@@ -16,10 +16,9 @@ export default function Point() {
 
   const [point, setPoint]: any = useState(undefined);
   const [images, setImages]: any = useState(undefined);
+  const [comments, setComments]: any = useState(undefined);
 
-  console.log("pointId", pointId);
-
-  console.log("user point", user);
+  const [updateStatus, setUpdateStatus] = useState(false);
 
   type loginType = {
     name: string;
@@ -57,9 +56,6 @@ export default function Point() {
 
     const dateString = new Date(response.data.date).toDateString();
 
-    console.log("response.data.date.toDateString()");
-    console.log(dateString);
-
     const data = new Date(dateString);
 
     const dateFormated = format(data, "dd/MM/yyyy", {
@@ -72,18 +68,119 @@ export default function Point() {
 
   const getImageByPoint = async () => {
     const response = await api.get(`/image/point/${pointId}`);
-    console.log("response find images", response.data);
 
     setImages(response.data);
+  };
+
+  const getCommentByPoint = async () => {
+    const response = await api.get(`/comment/point/${pointId}`);
+    console.log("response find comments", response.data);
+
+    setComments(
+      response.data.map((comment: any) => {
+        const dateString = new Date(comment.date).toDateString();
+
+        const data = new Date(dateString);
+
+        const dateFormated = format(data, "dd/MM/yyyy", {
+          locale: ptBR,
+          useAdditionalDayOfYearTokens: true,
+        });
+        return { comment: comment.comment, date: dateFormated };
+      })
+    );
   };
 
   useEffect(() => {
     getPoint();
     getImageByPoint();
+    getCommentByPoint();
   }, []);
 
-  return (
+  return updateStatus ? (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="p-2 mx-2 border">
+        <div className="flex-col w-fit mx-auto">
+          <h2 className="w-fit mx-auto text-3xl">Editando: {point.name}</h2>
+
+          <div className="mt-2 w-fit mx-auto">
+            <input
+              placeholder="Nome para o ponto"
+              className="text-2xl pl-2 border border-slate-400 rounded-md"
+              value={point.name}
+              {...register("name", { required: true })}
+            />
+            {errors.name && (
+              <div className="w-fit mt-1 text-red-600">
+                É necessário dar um nome de identificação
+              </div>
+            )}
+          </div>
+
+          <div className="mt-2 w-fit mx-auto">
+            <input
+              placeholder="Descrição do ponto"
+              className="text-2xl pl-2 border border-slate-400 rounded-md"
+              value={point.description}
+              {...register("description", { required: true })}
+            />
+            {errors.description && (
+              <div className="w-fit mt-1 text-red-600">
+                É necessário uma descrição para o ponto
+              </div>
+            )}
+          </div>
+
+          {user.lat === null && user.long === null && (
+            <div>
+              <div className="mt-2 w-fit mx-auto">
+                <input
+                  placeholder="Latitude"
+                  className="text-2xl pl-2 border border-slate-400 rounded-md"
+                  value={point.latitude}
+                  {...register("latitude", { required: true })}
+                />
+                {errors.latitude && (
+                  <div className="w-fit mt-1 text-red-600">
+                    Colocar a latitude
+                  </div>
+                )}
+              </div>
+
+              {/* <div className="mt-2 w-fit mx-auto">
+                <input
+                  placeholder="Longitude"
+                  className="text-2xl pl-2 border border-slate-400 rounded-md"
+                  value={point.longitude}
+                  {...register("longitude", { required: true })}
+                />
+                {errors.longitude && (
+                  <div className="w-fit mt-1 text-red-600">
+                    Colocar a longitude
+                  </div>
+                )}
+              </div> */}
+            </div>
+          )}
+        </div>
+        <div className="flex justify-center mt-2">
+          <button
+            onClick={() => setUpdateStatus(false)}
+            className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+          >
+            Voltar
+          </button>
+          <button
+            type="submit"
+            className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+          >
+            Salvar
+          </button>
+        </div>
+      </div>
+    </form>
+  ) : (
+    <div>
       {point && (
         <div className="p-2 mx-2 border">
           <div className="flex-col w-fit mx-auto">
@@ -94,7 +191,7 @@ export default function Point() {
             <p className="w-fit mx-auto text-3xl">{point.date}</p>
           </div>
           <div className="">
-            <h2 className="w-fit mx-auto text-3xl">Fotos</h2>
+            {/* <h2 className="w-fit mx-auto text-3xl">Fotos</h2> */}
             {images && (
               <Carousel>
                 {images.map((image) => (
@@ -105,6 +202,19 @@ export default function Point() {
               </Carousel>
             )}
           </div>
+          <div>
+            <div className="flex-col w-fit mx-auto">
+              <h2 className="w-fit mx-auto text-3xl">Comentários</h2>
+            </div>
+            {comments &&
+              comments.map((comment) => (
+                <div className="flex border mt-1 p-1">
+                  <p className="text-lg">{comment.comment}</p>
+                  <p className="w-fit ml-auto">{comment.date}</p>
+                </div>
+              ))}
+          </div>
+
           <div className="flex justify-center mt-2">
             <button
               // type="submit"
@@ -114,7 +224,7 @@ export default function Point() {
               Voltar
             </button>
             <button
-              type="submit"
+              onClick={() => setUpdateStatus(true)}
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Editar
@@ -122,6 +232,6 @@ export default function Point() {
           </div>
         </div>
       )}
-    </form>
+    </div>
   );
 }
