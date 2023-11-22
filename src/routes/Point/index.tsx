@@ -3,6 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 export default function Point() {
   const { pointId } = useParams();
@@ -77,14 +79,17 @@ export default function Point() {
             <p className="w-fit mx-auto text-3xl">{point.description}</p>
             <p className="w-fit mx-auto text-3xl">{point.date}</p>
           </div>
-          <div className="flex-col w-fit mx-auto">
+          <div className="">
             <h2 className="w-fit mx-auto text-3xl">Fotos</h2>
-            {images &&
-              images.map((image) => (
+            {images && <Carousel>
+              {images.map((image) => (
                 <div>
                   <img alt={image?.point?.name} src={image?.url} />
                 </div>
               ))}
+            </Carousel>
+            }
+
           </div>
           <div className="flex justify-center mt-2">
             <button
