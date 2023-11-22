@@ -7,6 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { ptBR } from "date-fns/locale";
 import { format } from "date-fns";
+import ReactPaginate from "react-paginate";
 
 export default function Point() {
   const { pointId } = useParams();
@@ -17,6 +18,8 @@ export default function Point() {
   const [point, setPoint]: any = useState(undefined);
   const [images, setImages]: any = useState(undefined);
   const [comments, setComments]: any = useState(undefined);
+
+  const [pageComments, setPageComments] = useState(1);
 
   const [updateStatus, setUpdateStatus] = useState(false);
 
@@ -213,6 +216,18 @@ export default function Point() {
                   <p className="w-fit ml-auto">{comment.date}</p>
                 </div>
               ))}
+          </div>
+          <div className="flex w-full mt-4">
+            <ReactPaginate
+              containerClassName="pagination"
+              breakLabel="..."
+              nextLabel="next >"
+              // onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={123}
+              // previousLabel="< previous"
+              renderOnZeroPageCount={null}
+            />
           </div>
 
           <div className="flex justify-center mt-2">
