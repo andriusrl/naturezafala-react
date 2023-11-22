@@ -234,10 +234,7 @@ export default function Point() {
               breakLabel="..."
               nextLabel=" >"
               onPageChange={handlePageComment}
-              // pageRangeDisplayed={7}
-
               pageRangeDisplayed={2}
-
               pageCount={comments?.meta?.totalPages}
               previousLabel="< "
               renderOnZeroPageCount={null}

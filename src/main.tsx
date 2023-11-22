@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import MarkPoint from "./routes/MarkPoint";
 import Point from "./routes/Point";
+import Comment from "./routes/Comment";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/marcarponto",
         element: <MarkPoint />,
+      },
+      {
+        path: "/comentar/:pointId",
+        element: <Comment />,
       },
     ],
   },
