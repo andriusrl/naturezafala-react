@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -10,6 +10,7 @@ import { format } from "date-fns";
 
 export default function Point() {
   const { pointId } = useParams();
+  const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.user);
 
@@ -56,8 +57,8 @@ export default function Point() {
 
     const dateString = new Date(response.data.date).toDateString();
 
-    console.log('response.data.date.toDateString()')
-    console.log(dateString)
+    console.log("response.data.date.toDateString()");
+    console.log(dateString);
 
     const data = new Date(dateString);
 
@@ -88,8 +89,8 @@ export default function Point() {
           <div className="flex-col w-fit mx-auto">
             <h2 className="w-fit mx-auto text-3xl">{point.name}</h2>
           </div>
-          <div className="flex-col w-fit mx-auto">
-            <p className="w-fit mx-auto text-3xl">{point.description}</p>
+          <div className="">
+            <p className="">{point.description}</p>
             <p className="w-fit mx-auto text-3xl">{point.date}</p>
           </div>
           <div className="">
@@ -106,10 +107,17 @@ export default function Point() {
           </div>
           <div className="flex justify-center mt-2">
             <button
+              // type="submit"
+              onClick={() => navigate("/")}
+              className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            >
+              Voltar
+            </button>
+            <button
               type="submit"
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
-              Salvar ponto
+              Editar
             </button>
           </div>
         </div>
