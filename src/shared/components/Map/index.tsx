@@ -9,6 +9,7 @@ import TrashPng from "../../../assets/trash.png";
 import api from "../../../config/axios/api";
 import { useDispatch } from "react-redux";
 import { setLat, setLong } from "../../../features/user/user-slice";
+import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_SITEURL;
 
 const customPersonIcon = new Icon({
@@ -30,6 +31,7 @@ enum typePollution {
 
 export default function Map() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -151,11 +153,14 @@ export default function Map() {
                 >
                   <Popup>
                     {point.name},{point.description} <br />
-                    <a href={apiUrl + "/ponto/" + point.id}>
-                      <button className="bg-slate-300 w-fit p-2 rounded-xl mx-auto">
-                        fotos e informações
-                      </button>
-                    </a>
+                    {/* <a href={apiUrl + "/ponto/" + point.id}> */}
+                    <button
+                      onClick={() => navigate(`/ponto/${Number(point.id)}`)}
+                      className="bg-slate-300 w-fit p-2 rounded-xl mx-auto"
+                    >
+                      fotos e informações
+                    </button>
+                    {/* </a> */}
                     {/* Lat:{point.latitude},
                     Lng:{point.longitude} */}
                   </Popup>

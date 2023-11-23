@@ -55,7 +55,7 @@ export default function Point() {
   // console.log(watch("email"))
 
   const getPoint = async () => {
-    const response = await api.get(`/point/${pointId}`);
+    const response = await api.get(`/point/${Number(pointId)}`);
 
     const dateString = new Date(response.data.date).toDateString();
 
@@ -71,7 +71,7 @@ export default function Point() {
 
   const getCommentByPoint = async () => {
     const response = await api.get(
-      `/comment/point/${pointId}?page=${pageComments}&limit=${12}`
+      `/comment/point/${Number(pointId)}?page=${pageComments}&limit=${12}`
     );
 
     console.log("response find comments", response.data);
@@ -93,7 +93,7 @@ export default function Point() {
   };
 
   const getImageByPoint = async () => {
-    const response = await api.get(`/image/point/${pointId}`);
+    const response = await api.get(`/image/point/${Number(pointId)}`);
 
     setImages(response.data);
   };
@@ -240,10 +240,17 @@ export default function Point() {
               renderOnZeroPageCount={null}
             />
           </div>
+          <div className="w-full">
+            <button
+              onClick={() => navigate(`/comentar/${Number(pointId)}`)}
+              className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            >
+              Comentar
+            </button>
+          </div>
 
           <div className="flex justify-center mt-2">
             <button
-              // type="submit"
               onClick={() => navigate("/")}
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
