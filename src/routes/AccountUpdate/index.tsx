@@ -216,7 +216,9 @@ export default function AccountUpdate() {
             >
               Voltar
             </button>
+
             <div className="mx-3 my-auto" > | </div>
+            
             <button
               type="submit"
               className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
