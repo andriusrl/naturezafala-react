@@ -85,6 +85,17 @@ const Navbar = () => {
             </Link>
           </>
         )}
+        {user.type === 1 && !showLoginRegister && (
+          <>
+            <span className="mx-2">|</span>
+            <span
+              onClick={handleLogout}
+              className="bg-slate-200 rounded-lg p-2 cursor-pointer"
+            >
+              Administrar
+            </span>
+          </>
+        )}
         {!showLoginRegister && (
           <>
             <span className="mx-2">|</span>

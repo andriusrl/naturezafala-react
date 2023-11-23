@@ -35,9 +35,6 @@ export default function Login() {
   const handleLogin = async (data) => {
     const response = await api.post("/auth/login", data);
 
-    console.log("response colocar tipo");
-    console.log(response.data);
-
     await userStorage.setToken(response.data.token);
     await userStorage.setName(response.data.name);
     await userStorage.setType(response.data.type);

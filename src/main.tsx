@@ -12,6 +12,7 @@ import { store } from "./store";
 import MarkPoint from "./routes/MarkPoint";
 import Point from "./routes/Point";
 import Comment from "./routes/Comment";
+import Accounts from "./routes/Accounts";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/entrar",
         element: <Login />,
+      },
+      {
+        path: "/contas",
+        element: <Accounts />,
       },
       {
         path: "/ponto/:pointId",
