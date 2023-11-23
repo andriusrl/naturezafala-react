@@ -24,17 +24,20 @@ export default function PointModeration() {
 
     console.log("getPoints", response.data);
 
-    // const dateString = new Date(response.data.date).toDateString();
-
-    // const data = new Date(dateString);
-
-    // const dateFormated = format(data, "dd/MM/yyyy", {
-    //   locale: ptBR,
-    //   useAdditionalDayOfYearTokens: true,
-    // });
-
     setPoints(response.data);
     // setPoints({ ...response.data, date: dateFormated });
+  };
+
+  const convertDate = (date) => {
+    const dateString = new Date(date).toDateString();
+
+    const data = new Date(dateString);
+
+    const dateFormated = format(data, "dd/MM/yyyy", {
+      locale: ptBR,
+      useAdditionalDayOfYearTokens: true,
+    });
+    return dateFormated;
   };
 
   const handlePage = async (value) => {
@@ -64,7 +67,8 @@ export default function PointModeration() {
             points.items.map((pointItem) => (
               <div className="flex border mt-1 p-1">
                 <p className="text-lg">{pointItem.name}</p>
-                <p className="w-fit ml-auto">{pointItem.date}</p>
+                <p className="w-fit ml-auto">{pointItem.status }</p>
+                <p className="w-fit ml-auto">{convertDate(pointItem.date)}</p>
               </div>
             ))}
         </div>
