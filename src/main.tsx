@@ -14,6 +14,7 @@ import Point from "./routes/Point";
 import Comment from "./routes/Comment";
 import Accounts from "./routes/Accounts";
 import AccountUpdate from "./routes/AccountUpdate";
+import PointModeration from "./routes/PointModeration";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/conta/:userId",
         element: <AccountUpdate />,
+      },
+      {
+        path: "/ponto/moderacao",
+        element: <PointModeration />,
       },
       {
         path: "/ponto/:pointId",
