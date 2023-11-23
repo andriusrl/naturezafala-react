@@ -17,10 +17,15 @@ export const user = {
     setName: name => {
         localStorage.setItem('NAME', name)
     },
+    setType: type => {
+        localStorage.setItem('TYPE', type)
+    },
     getToken: () => localStorage.getItem('TOKEN'),
     getName: () => localStorage.getItem('NAME'),
+    getType: () => Number(localStorage.getItem('TYPE')),
     remove: () => {
         localStorage.removeItem('TOKEN')
         localStorage.removeItem('NAME')
+        localStorage.removeItem('TYPE')
     }
 }

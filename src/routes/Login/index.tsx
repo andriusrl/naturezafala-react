@@ -5,7 +5,7 @@ import { user as userStorage } from "../../config/localStorage/localStorage";
 // import { setToken, setUserName } from "../../features/user/user-slice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks";
-import { setToken, setName } from "../../features/user/user-slice";
+import { setToken, setName, setType } from "../../features/user/user-slice";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -35,11 +35,16 @@ export default function Login() {
   const handleLogin = async (data) => {
     const response = await api.post("/auth/login", data);
 
+    console.log("response colocar tipo");
+    console.log(response.data);
+
     await userStorage.setToken(response.data.token);
     await userStorage.setName(response.data.name);
+    await userStorage.setType(response.data.type);
 
     await dispatch(setToken(response.data.token));
     await dispatch(setName(response.data.name));
+    await dispatch(setType(response.data.type));
 
     navigate(`/`);
   };
