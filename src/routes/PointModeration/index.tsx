@@ -5,9 +5,8 @@ import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import { ptBR } from "date-fns/locale";
-import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
+import convertDate from "../../shared/helpers/dateConverter";
 
 export default function PointModeration() {
   const { pointId } = useParams();
@@ -26,18 +25,6 @@ export default function PointModeration() {
 
     setPoints(response.data);
     // setPoints({ ...response.data, date: dateFormated });
-  };
-
-  const convertDate = (date) => {
-    const dateString = new Date(date).toDateString();
-
-    const data = new Date(dateString);
-
-    const dateFormated = format(data, "dd/MM/yyyy", {
-      locale: ptBR,
-      useAdditionalDayOfYearTokens: true,
-    });
-    return dateFormated;
   };
 
   const handlePage = async (value) => {
@@ -67,7 +54,7 @@ export default function PointModeration() {
             points.items.map((pointItem) => (
               <div className="flex border mt-1 p-1">
                 <p className="text-lg">{pointItem.name}</p>
-                <p className="w-fit ml-auto">{pointItem.status }</p>
+                <p className="w-fit ml-auto">{pointItem.status}</p>
                 <p className="w-fit ml-auto">{convertDate(pointItem.date)}</p>
               </div>
             ))}
