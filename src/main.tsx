@@ -13,6 +13,7 @@ import MarkPoint from "./routes/MarkPoint";
 import Point from "./routes/Point";
 import Comment from "./routes/Comment";
 import Accounts from "./routes/Accounts";
+import AccountUpdate from "./routes/AccountUpdate";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/contas",
         element: <Accounts />,
+      },
+      {
+        path: "/conta/:userId",
+        element: <AccountUpdate />,
       },
       {
         path: "/ponto/:pointId",
