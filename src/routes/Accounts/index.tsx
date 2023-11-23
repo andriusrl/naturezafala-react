@@ -183,7 +183,13 @@ export default function Accounts() {
             users.items.map((userItem) => (
               <div className="flex border mt-1 p-1" key={userItem.id}>
                 <p className="text-lg">{userItem.name}</p>
-                <p className="w-fit ml-auto">{userItem.birthDate}</p>
+                <p className="w-fit ml-auto mr-2">{userItem.birthDate}</p>
+                <button
+                  className="bg-[#944B0A] rounded-lg p-2"
+                  onClick={() => navigate(`/conta/${userItem.id}`)}
+                >
+                  Editar
+                </button>
               </div>
             ))}
         </div>

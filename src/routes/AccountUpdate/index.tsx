@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios/api";
 
 export default function AccountUpdate() {
+  const navigate = useNavigate();
   const { userId } = useParams();
 
   const [userForm, setUserForm]: any = useState(undefined);
@@ -203,13 +204,19 @@ export default function AccountUpdate() {
               <input
                 type="checkbox"
                 className="text-2xl pl-2 border border-slate-400 rounded-md"
-                checked={userForm?.status}
                 {...register("status")}
               />
               {userForm?.status ? "Ativo" : "Inativo"}
             </div>
           </div>
           <div className="flex justify-center mt-2">
+            <button
+              onClick={() => navigate("/contas")}
+              className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            >
+              Voltar
+            </button>
+            <div className="mx-3 my-auto" > | </div>
             <button
               type="submit"
               className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
