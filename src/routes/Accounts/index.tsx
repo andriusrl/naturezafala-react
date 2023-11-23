@@ -65,7 +65,7 @@ export default function Accounts() {
 
     setUsers({
       items: response.data.items.map((userItem: any) => {
-        const dateString = new Date(userItem.birth_date).toDateString();
+        const dateString = new Date(userItem.birthDate).toDateString();
 
         const data = new Date(dateString);
 
@@ -73,7 +73,7 @@ export default function Accounts() {
           locale: ptBR,
           useAdditionalDayOfYearTokens: true,
         });
-        return { ...userItem, birth_date: dateFormated };
+        return { ...userItem, birthDate: dateFormated };
       }),
       meta: response.data.meta,
     });
@@ -183,7 +183,7 @@ export default function Accounts() {
             users.items.map((userItem) => (
               <div className="flex border mt-1 p-1" key={userItem.id}>
                 <p className="text-lg">{userItem.name}</p>
-                <p className="w-fit ml-auto">{userItem.birth_date}</p>
+                <p className="w-fit ml-auto">{userItem.birthDate}</p>
               </div>
             ))}
         </div>

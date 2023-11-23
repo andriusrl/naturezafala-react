@@ -51,8 +51,8 @@ export default function AccountUpdate() {
       email: userForm?.email,
       password: userForm?.password,
       birthDate:
-        userForm?.birth_date &&
-        new Date(userForm?.birth_date)?.toISOString()?.slice(0, 10),
+        userForm?.birthDate &&
+        new Date(userForm?.birthDate)?.toISOString()?.slice(0, 10),
       fone: userForm?.fone,
       cpf: userForm?.cpf,
       status: userForm?.status,
@@ -62,13 +62,13 @@ export default function AccountUpdate() {
   const handleUpdateUser = async (data) => {
     console.log("data handle update user", data);
 
-    const filteredData = Object.fromEntries(
-      Object.entries(data).filter(([key, value]) => value !== null)
-    );
+    // const filteredData = Object.fromEntries(
+    //   Object.entries(data).filter(([key, value]) => value !== null)
+    // );
 
     await api.patch("/user", {
       id: Number(userId),
-      ...filteredData,
+      ...data,
     });
     getUser();
     alert("Usuario atualizado com sucesso");
@@ -81,6 +81,9 @@ export default function AccountUpdate() {
   const getUser = async () => {
     const response = await api.get(`/user/${Number(userId)}`);
 
+    console.log("response get user");
+    console.log(response.data);
+
     await setUserForm(response.data);
 
     reset({
@@ -88,8 +91,8 @@ export default function AccountUpdate() {
       email: response.data.email,
       password: response.data.password,
       birthDate:
-        response.data.birth_date &&
-        new Date(response.data.birth_date)?.toISOString()?.slice(0, 10),
+        response.data.birthDate &&
+        new Date(response.data.birthDate)?.toISOString()?.slice(0, 10),
       fone: response.data.fone,
       cpf: response.data.cpf,
       status: response.data.status,
@@ -103,8 +106,8 @@ export default function AccountUpdate() {
     getUser();
   }, []);
 
-  userForm?.birth_date &&
-    console.log(new Date(userForm?.birth_date)?.toISOString()?.slice(0, 10));
+  userForm?.birthDate &&
+    console.log(new Date(userForm?.birthDate)?.toISOString()?.slice(0, 10));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
