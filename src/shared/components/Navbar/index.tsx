@@ -62,9 +62,8 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`mb-2 flex justify-center items-center font-semibold ${
-          menu ? "" : "hidden"
-        }`}
+        className={`mb-2 flex justify-center items-center font-semibold ${menu ? "" : "hidden"
+          }`}
       >
         <Link
           to="/"
@@ -89,10 +88,10 @@ const Navbar = () => {
           <>
             <span className="mx-2">|</span>
             <span
-              onClick={handleLogout}
+              onClick={()=>navigate("/contas")}
               className="bg-slate-200 rounded-lg p-2 cursor-pointer"
             >
-              Administrar
+              Contas
             </span>
           </>
         )}

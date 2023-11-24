@@ -60,6 +60,9 @@ export default function Accounts() {
     console.log("getUser", page);
     const response = await api.get(`/user?page=${currentPage}&limit=${12}`);
 
+    console.log('`/user?page=${currentPage}&limit=${12}`')
+    console.log(`/user?page=${currentPage}&limit=${12}`)
+
     console.log("response find users");
     console.log(response.data);
 

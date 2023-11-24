@@ -43,7 +43,8 @@ export default function Map() {
   );
 
   const getPoints = async () => {
-    const response = await api.get("/point");
+    const response = await api.get(`/point/km/${latitude}/${longitude}/20`);
+    console.log("response", response.data);
     console.log("response", response.data);
 
     setMarkingPoints(response.data);
@@ -52,6 +53,10 @@ export default function Map() {
   useEffect(() => {
     getPoints();
   }, []);
+
+  useEffect(() => {
+    getPoints();
+  }, [latitude, longitude]);
 
   if (latitude && longitude) {
     dispatch(setLat(latitude));
