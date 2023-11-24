@@ -109,8 +109,6 @@ export default function Point() {
     getCommentByPoint();
   }, []);
 
-  console.log("comments", comments);
-
   return updateStatus ? (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-2 mx-2 border">
@@ -185,8 +183,8 @@ export default function Point() {
             Voltar
           </button>
 
-          <div className="mx-3 my-auto" > | </div>
-          
+          <div className="mx-3 my-auto"> | </div>
+
           <button
             type="submit"
             className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
@@ -204,7 +202,7 @@ export default function Point() {
             <h2 className="w-fit mx-auto text-3xl">{point.name}</h2>
           </div>
           <div className="">
-            <p className="">{point.description}</p>
+            <p className="text-2xl">{point.description}</p>
             <p className="w-fit mx-auto text-3xl">{point.date}</p>
           </div>
           <div className="">
@@ -221,15 +219,18 @@ export default function Point() {
           </div>
           <div>
             <div className="flex-col w-fit mx-auto">
-              <h2 className="w-fit mx-auto text-3xl">Comentários</h2>
+              <h2 className="w-fit mx-auto text-3xl font-semibold">Comentários</h2>
             </div>
-            {comments &&
+            {comments?.items?.length > 0 ? (
               comments.items.map((comment) => (
                 <div className="flex border mt-1 p-1">
                   <p className="text-lg">{comment.comment}</p>
                   <p className="w-fit ml-auto">{comment.date}</p>
                 </div>
-              ))}
+              ))
+            ) : (
+              <div className="w-fit mx-auto text-xl">Nenhum comentário</div>
+            )}
           </div>
           <div className="mt-4 w-fit mx-auto">
             <ReactPaginate
