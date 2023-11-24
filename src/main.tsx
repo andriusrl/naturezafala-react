@@ -15,6 +15,7 @@ import Comment from "./routes/Comment";
 import Accounts from "./routes/Accounts";
 import AccountUpdate from "./routes/AccountUpdate";
 import PointModeration from "./routes/PointModeration";
+import ImageAdd from "./routes/ImageAdd";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/ponto/moderacao",
         element: <PointModeration />,
+      },
+      {
+        path: "/ponto/imagem/:pointId",
+        element: <ImageAdd />,
       },
       {
         path: "/ponto/:pointId",

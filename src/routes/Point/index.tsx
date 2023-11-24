@@ -207,7 +207,7 @@ export default function Point() {
           </div>
           <div className="">
             {/* <h2 className="w-fit mx-auto text-3xl">Fotos</h2> */}
-            {images && (
+            {images?.length > 0 ? (
               <Carousel>
                 {images.map((image) => (
                   <div>
@@ -215,11 +215,23 @@ export default function Point() {
                   </div>
                 ))}
               </Carousel>
+            ) : (
+              <div className="flex-col w-fit mx-auto">
+                <div className="w-fit mx-auto">Nenhuma imagem</div>
+                <button
+                  onClick={() => navigate(`/ponto/imagem/${pointId}`)}
+                  className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+                >
+                  Adicionar imagem
+                </button>
+              </div>
             )}
           </div>
           <div>
             <div className="flex-col w-fit mx-auto">
-              <h2 className="w-fit mx-auto text-3xl font-semibold">Comentários</h2>
+              <h2 className="w-fit mx-auto text-3xl font-semibold">
+                Comentários
+              </h2>
             </div>
             {comments?.items?.length > 0 ? (
               comments.items.map((comment) => (
