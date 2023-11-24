@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios/api";
+import { useAppSelector } from "../../hooks";
 
 export default function AccountUpdate() {
   const navigate = useNavigate();
+  const user = useAppSelector((state) => state.user);
   const { userId } = useParams();
 
   const [userForm, setUserForm]: any = useState(undefined);
@@ -80,7 +82,9 @@ export default function AccountUpdate() {
   };
 
   const getUser = async () => {
-    const response = await api.get(`/user/${Number(userId)}`);
+    const response = await api.get(`/user/${Number(userId)}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
 
     console.log("response get user");
     console.log(response.data);
@@ -217,8 +221,8 @@ export default function AccountUpdate() {
               Voltar
             </button>
 
-            <div className="mx-3 my-auto" > | </div>
-            
+            <div className="mx-3 my-auto"> | </div>
+
             <button
               type="submit"
               className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
