@@ -58,10 +58,12 @@ export default function Accounts() {
 
   const getUser = async (currentPage = 1) => {
     console.log("getUser", page);
-    const response = await api.get(`/user?page=${currentPage}&limit=${12}`);
+    const response = await api.get(`/user?page=${currentPage}&limit=${12}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
 
-    console.log('`/user?page=${currentPage}&limit=${12}`')
-    console.log(`/user?page=${currentPage}&limit=${12}`)
+    console.log("`/user?page=${currentPage}&limit=${12}`");
+    console.log(`/user?page=${currentPage}&limit=${12}`);
 
     console.log("response find users");
     console.log(response.data);
