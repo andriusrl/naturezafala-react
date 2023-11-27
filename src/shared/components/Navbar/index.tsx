@@ -62,13 +62,14 @@ const Navbar = () => {
         </div>
       </div>
       <div
-        className={`mb-2 flex justify-center items-center font-semibold ${menu ? "" : "hidden"
-          }`}
+        className={`mb-2 flex flex-wrap justify-center items-center font-semibold ${
+          menu ? "" : "hidden"
+        }`}
       >
         <Link
           to="/"
           onClick={() => dispatch(setMenuPollutionTypeStatus(false))}
-          className="bg-slate-200 rounded-lg p-2"
+          className="bg-slate-200 rounded-lg p-2 flex-1/3"
         >
           Página inicial
         </Link>
@@ -86,12 +87,27 @@ const Navbar = () => {
         )}
         {user.type === 1 && !showLoginRegister && (
           <>
-            <span className="mx-2">|</span>
+            <div className="flex-1/3">
+              <span className="mx-2">|</span>
+              <span
+                onClick={() => navigate("/contas")}
+                className="bg-slate-200 rounded-lg p-2 cursor-pointer"
+              >
+                Contas
+              </span>
+            </div>
+            <span className="mx-2 flex-1/3">|</span>
             <span
-              onClick={()=>navigate("/contas")}
+              onClick={() => navigate("/moderacao/imagem")}
               className="bg-slate-200 rounded-lg p-2 cursor-pointer"
             >
-              Contas
+              Imagens
+            </span>
+            <span
+              onClick={() => navigate("/moderacao/ponto")}
+              className="bg-slate-200 rounded-lg p-2 cursor-pointer"
+            >
+              Pontos
             </span>
           </>
         )}

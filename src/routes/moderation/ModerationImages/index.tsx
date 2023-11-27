@@ -22,10 +22,7 @@ export default function ModerationImages() {
   const getImages = async (currentPage = 1) => {
     const response = await api.get(`/image?page=${currentPage}&limit=${12}`);
 
-    console.log("getImagens", response.data);
-
     setImages(response.data);
-    // setPoints({ ...response.data, date: dateFormated });
   };
 
   const getImageSearch = async (currentPage = 1) => {
@@ -36,8 +33,6 @@ export default function ModerationImages() {
         headers: { Authorization: `Bearer ${user.token}` },
       }
     );
-
-    console.log("response", response.data);
 
     setImages({
       items: response.data.items,
@@ -64,8 +59,6 @@ export default function ModerationImages() {
   useEffect(() => {
     getImages();
   }, []);
-
-  console.log("images", images);
 
   return (
     <div>
@@ -98,9 +91,6 @@ export default function ModerationImages() {
                   </button>
                 </div>
                 <div className="flex">
-                  {/* <p className="w-fit h-fit my-auto font-semibold">
-                    {convertDate(imageItem.date)}
-                  </p> */}
                   <p className="w-fit h-fit my-auto ml-auto mr-2 font-semibold">
                     {imageItem.status ? "Ativo" : "Inativo"}
                   </p>
@@ -120,15 +110,6 @@ export default function ModerationImages() {
             renderOnZeroPageCount={null}
           />
         </div>
-        {/* <div className="w-full">
-          <button
-            onClick={() => navigate(`/comentar/${Number(pointId)}`)}
-            className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-          >
-            Comentar
-          </button>
-        </div> */}
-
         <div className="flex justify-center mt-2">
           <button
             onClick={() => navigate("/")}
@@ -136,12 +117,6 @@ export default function ModerationImages() {
           >
             Voltar
           </button>
-          {/* <button
-            onClick={() => setUpdateStatus(true)}
-            className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-          >
-            Editar
-          </button> */}
         </div>
       </div>
     </div>

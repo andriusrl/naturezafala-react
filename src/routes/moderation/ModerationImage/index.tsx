@@ -16,8 +16,6 @@ export default function ModerationImage() {
   const user = useAppSelector((state) => state.user);
   const [image, setImage]: any = useState(undefined);
 
-  const [updateStatus, setUpdateStatus] = useState(false);
-
   const handleActivate = async (status) => {
     console.log("handleActivate");
     console.log(status);
