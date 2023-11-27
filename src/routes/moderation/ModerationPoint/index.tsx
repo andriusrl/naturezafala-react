@@ -54,7 +54,19 @@ export default function ModerationPoint() {
     // console.log("response", response.data);
   };
 
-  // console.log(watch("email"))
+  const handleActivate = async (status) => {
+    console.log("handleActivate");
+    console.log(status);
+    const response = await api.patch(
+      `/point/`,
+      { status, id: Number(pointId) },
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      }
+    );
+
+    getPoint();
+  };
 
   const getPoint = async () => {
     const response = await api.get(`/point/${Number(pointId)}`);
@@ -220,12 +232,6 @@ export default function ModerationPoint() {
             ) : (
               <div className="flex-col w-fit mx-auto">
                 <div className="w-fit mx-auto">Nenhuma imagem</div>
-                <button
-                  onClick={() => navigate(`/ponto/imagem/${pointId}`)}
-                  className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-                >
-                  Adicionar imagem
-                </button>
               </div>
             )}
           </div>
@@ -242,18 +248,27 @@ export default function ModerationPoint() {
             />
           </div>
           <div className="w-fit mx-auto">
-            <button
-              onClick={() => navigate(`/comentar/${Number(pointId)}`)}
-              className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-            >
-              Ativar ponto
-            </button>
+            {!point.status ? (
+              <button
+                onClick={() => handleActivate(true)}
+                className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              >
+                Ativar ponto
+              </button>
+            ) : (
+              <button
+                onClick={() => handleActivate(false)}
+                className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              >
+                Desativar ponto
+              </button>
+            )}
           </div>
 
           <div className="flex justify-center mt-2">
             <button
               onClick={() => navigate("/moderacao/ponto")}
-              className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Voltar
             </button>
