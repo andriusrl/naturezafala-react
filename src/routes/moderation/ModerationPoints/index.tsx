@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../../hooks";
-import api from "../../config/axios/api";
+import { useAppSelector } from "../../../hooks";
+import api from "../../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ReactPaginate from "react-paginate";
-import convertDate from "../../shared/helpers/dateConverter";
+import convertDate from "../../../shared/helpers/dateConverter";
 
-export default function PointModeration() {
+export default function ModerationPoints() {
   const { pointId } = useParams();
   const navigate = useNavigate();
 
@@ -52,10 +52,26 @@ export default function PointModeration() {
         <div>
           {points &&
             points.items.map((pointItem) => (
-              <div className="flex border mt-1 p-1">
-                <p className="text-lg">{pointItem.name}</p>
-                <p className="w-fit ml-auto">{pointItem.status}</p>
-                <p className="w-fit ml-auto">{convertDate(pointItem.date)}</p>
+              <div className="border mt-1 p-1">
+                <div className="flex">
+                  <p className="text-lg font-bold h-fit my-auto">
+                    {pointItem.name}
+                  </p>
+                  <button
+                    onClick={() => navigate(`/moderacao/ponto/${pointItem.id}`)}
+                    className="p-2 ml-auto bg-slate-400 rounded-lg p-2 font-bold text-xl"
+                  >
+                    Visualizar
+                  </button>
+                </div>
+                <div className="flex">
+                  <p className="w-fit h-fit my-auto font-semibold">
+                    {convertDate(pointItem.date)}
+                  </p>
+                  <p className="w-fit h-fit my-auto ml-auto mr-2 font-semibold">
+                    {pointItem.status ? "Ativo" : "Inativo"}
+                  </p>
+                </div>
               </div>
             ))}
         </div>
