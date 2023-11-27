@@ -17,6 +17,8 @@ import AccountUpdate from "./routes/AccountUpdate";
 import ImageAdd from "./routes/ImageAdd";
 import ModerationPoint from "./routes/moderation/ModerationPoint";
 import ModerationPoints from "./routes/moderation/ModerationPoints";
+import ModerationImages from "./routes/moderation/ModerationImages";
+import ModerationImage from "./routes/moderation/ModerationImage";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
       {
         path: "/moderacao/ponto/:pointId",
         element: <ModerationPoint />,
+      },
+      {
+        path: "/moderacao/imagem",
+        element: <ModerationImages />,
+      },
+      {
+        path: "/moderacao/imagem/:imageId",
+        element: <ModerationImage />,
       },
       {
         path: "/ponto/imagem/:pointId",
