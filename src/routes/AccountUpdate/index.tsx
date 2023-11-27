@@ -4,6 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../config/axios/api";
 import { useAppSelector } from "../../hooks";
 
+type UpdateUserType = {
+  name: string | null;
+  email: string | null;
+  password: string | null;
+  birthDate: Date | null;
+  fone: number | null;
+  cpf: string | null;
+  status: boolean | null;
+};
+
 export default function AccountUpdate() {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
@@ -11,41 +21,9 @@ export default function AccountUpdate() {
 
   const [userForm, setUserForm]: any = useState(undefined);
 
-  console.log("account update", userId);
-
-  type UpdateUserType = {
-    name: string | null;
-    email: string | null;
-    password: string | null;
-    birthDate: Date | null;
-    fone: number | null;
-    cpf: string | null;
-    status: boolean | null;
-  };
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm<UpdateUserType>({
-  //   defaultValues: {
-  //     name: userForm?.name,
-  //     email: userForm?.email,
-  //     password: userForm?.password,
-  //     birthDate:
-  //       userForm?.birth_date &&
-  //       new Date(userForm?.birth_date)?.toISOString()?.slice(0, 10),
-  //     fone: userForm?.fone,
-  //     cpf: userForm?.cpf,
-  //     status: userForm?.status,
-  //   },
-  // });
-
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm<UpdateUserType>({
@@ -63,12 +41,6 @@ export default function AccountUpdate() {
   });
 
   const handleUpdateUser = async (data) => {
-    console.log("data handle update user", data);
-
-    // const filteredData = Object.fromEntries(
-    //   Object.entries(data).filter(([key, value]) => value !== null)
-    // );
-
     await api.patch("/user", {
       id: Number(userId),
       ...data,
@@ -86,9 +58,6 @@ export default function AccountUpdate() {
       headers: { Authorization: `Bearer ${user.token}` },
     });
 
-    console.log("response get user");
-    console.log(response.data);
-
     await setUserForm(response.data);
 
     reset({
@@ -104,15 +73,9 @@ export default function AccountUpdate() {
     });
   };
 
-  console.log("userForm");
-  console.log(userForm);
-
   useEffect(() => {
     getUser();
   }, []);
-
-  userForm?.birthDate &&
-    console.log(new Date(userForm?.birthDate)?.toISOString()?.slice(0, 10));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

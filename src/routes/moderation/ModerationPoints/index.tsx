@@ -15,6 +15,7 @@ export default function ModerationPoints() {
   const user = useAppSelector((state) => state.user);
 
   const [points, setPoints]: any = useState(undefined);
+  const [search, setSearch]: any = useState("");
 
   const [page, setPage] = useState(1);
 
@@ -27,10 +28,38 @@ export default function ModerationPoints() {
     // setPoints({ ...response.data, date: dateFormated });
   };
 
+  const getPointSearch = async (currentPage = 1) => {
+    const response = await api.post(
+      `/point/search?page=${currentPage}&limit=${12}`,
+      { text: search },
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      }
+    );
+
+    console.log("response", response.data);
+
+    setPoints({
+      items: response.data.items,
+      meta: response.data.meta,
+    });
+  };
+
   const handlePage = async (value) => {
     await setPage(value.selected + 1);
-    getPoints(value.selected + 1);
+
+    search.length > 0
+      ? getPointSearch(value.selected + 1)
+      : getPoints(value.selected + 1);
   };
+
+  const handleSearch = async (e) => {
+    setSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    getPointSearch();
+  }, [search]);
 
   useEffect(() => {
     getPoints();
@@ -44,10 +73,13 @@ export default function ModerationPoints() {
         <div className="flex-col w-fit mx-auto">
           <h2 className="w-fit mx-auto text-3xl">Todos os pontos</h2>
         </div>
-        {/* <div className="">
-          <p className="">{point.description}</p>
-          <p className="w-fit mx-auto text-3xl">{point.date}</p>
-        </div> */}
+        <input
+          type="text"
+          placeholder="Pesquise um ponto"
+          className="border w-full p-2 text-lg"
+          value={search}
+          onChange={handleSearch}
+        />
         <div className=""></div>
         <div>
           {points &&
