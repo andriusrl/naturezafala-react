@@ -33,17 +33,23 @@ export default function Login() {
   // console.log(watch("username"))
 
   const handleLogin = async (data) => {
-    const response = await api.post("/auth/login", data);
+    try {
+      const response = await api.post("/auth/login", data);
 
-    await userStorage.setToken(response.data.token);
-    await userStorage.setName(response.data.name);
-    await userStorage.setType(response.data.type);
+      await userStorage.setToken(response.data.token);
+      await userStorage.setName(response.data.name);
+      await userStorage.setType(response.data.type);
 
-    await dispatch(setToken(response.data.token));
-    await dispatch(setName(response.data.name));
-    await dispatch(setType(response.data.type));
+      await dispatch(setToken(response.data.token));
+      await dispatch(setName(response.data.name));
+      await dispatch(setType(response.data.type));
 
-    navigate(`/`);
+      navigate(`/`);
+    } catch (err) {
+      if (err.response.status === 401) {
+        alert("Usuário ou senha incorretos");
+      }
+    }
   };
 
   return (
