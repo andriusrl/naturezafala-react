@@ -11,6 +11,7 @@ type UpdateUserType = {
   birthDate: Date | null;
   fone: number | null;
   cpf: string | null;
+  type: number | null;
   status: boolean | null;
 };
 
@@ -36,17 +37,27 @@ export default function AccountUpdate() {
         new Date(userForm?.birthDate)?.toISOString()?.slice(0, 10),
       fone: userForm?.fone,
       cpf: userForm?.cpf,
+      type: userForm?.type,
       status: userForm?.status,
     },
   });
 
   const handleUpdateUser = async (data) => {
-    await api.patch("/user", {
-      id: Number(userId),
-      ...data,
-    });
-    getUser();
-    alert("Usuario atualizado com sucesso");
+    try {
+      await api.patch(
+        "/user",
+        {
+          id: Number(userId),
+          ...data,
+        },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      getUser();
+      alert("Usuario atualizado com sucesso");
+    } catch (err) {
+      console.log(err);
+      navigate("/entrar");
+    }
   };
 
   const onSubmit: SubmitHandler<UpdateUserType> = (data) => {
@@ -69,6 +80,7 @@ export default function AccountUpdate() {
         new Date(response.data.birthDate)?.toISOString()?.slice(0, 10),
       fone: response.data.fone,
       cpf: response.data.cpf,
+      type: response.data.type,
       status: response.data.status,
     });
   };
@@ -164,6 +176,15 @@ export default function AccountUpdate() {
                   É necessário colocar a senha
                 </div>
               )}
+            </div>
+
+            <div className="text-2xl">
+              <label htmlFor="roles">Escolha o tipo:</label>
+              <select id="type" {...register("type")}>
+                <option value={1}>Administrador</option>
+                <option value={2}>Moderador</option>
+                <option value={3}>Usuário</option>
+              </select>
             </div>
 
             <div className="mt-2">
