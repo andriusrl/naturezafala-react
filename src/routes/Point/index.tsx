@@ -117,6 +117,7 @@ export default function Point() {
   };
 
   const handleVote = async (vote) => {
+    console.log("handleVote", vote);
     await api.post(
       `/pointvote/${pointId}`,
       {
@@ -126,6 +127,7 @@ export default function Point() {
     );
 
     getPoint();
+    getVoteByPoint();
 
     alert(
       `Você votou que o ponto ${
@@ -138,6 +140,9 @@ export default function Point() {
     setPageComments(value.selected);
     getCommentByPoint();
   };
+
+  console.log("vote");
+  console.log(vote);
 
   useEffect(() => {
     getPoint();
