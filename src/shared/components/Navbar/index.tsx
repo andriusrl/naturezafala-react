@@ -27,8 +27,6 @@ const Navbar = () => {
     setMenu(!menu);
   };
 
-  console.log("user", user);
-
   useEffect(() => {
     if (user.token !== null) {
       return setLoginRegister(false);
@@ -42,7 +40,6 @@ const Navbar = () => {
     dispatch(setName(null));
     navigate(`/`);
     dispatch(setMenuPollutionTypeStatus(false));
-    // setLoginRegister(null)
   };
 
   return (

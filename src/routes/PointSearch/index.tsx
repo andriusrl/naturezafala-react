@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../../../hooks";
-import api from "../../../config/axios/api";
+import { useAppSelector } from "../../hooks";
+import api from "../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ReactPaginate from "react-paginate";
-import convertDate from "../../../shared/helpers/dateConverter";
+import convertDate from "../../shared/helpers/dateConverter";
 
-export default function Points() {
+export default function PointSearch() {
   const { search } = useParams();
   const navigate = useNavigate();
 
