@@ -30,15 +30,11 @@ export default function Home() {
   const handleMenuMarkPoint = async () => {
     const logged = await checkLogged();
 
-    console.log("logged");
-    console.log(logged);
-
     if (logged) {
       return dispatch(
         setMenuPollutionTypeStatus(!user.menuPollutionTypeStatus)
       );
     }
-    console.log("Você precisa estar logado para marcar um ponto");
     alert("Você precisa estar logado para marcar um ponto");
     navigate("/entrar");
   };

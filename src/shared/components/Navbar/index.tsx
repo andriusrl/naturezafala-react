@@ -14,11 +14,15 @@ import { useAppSelector } from "../../../hooks";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [menu, setMenu] = useState(false);
-  const handleMenu = () => setMenu(!menu);
+  const [showLoginRegister, setLoginRegister] = useState(false);
+  const [searchInput, setSearchInput] = useState(false);
+  const [search, setSearch] = useState("");
+
   const user = useAppSelector((state) => state.user);
 
-  const [showLoginRegister, setLoginRegister] = useState(false);
+  const handleMenu = () => setMenu(!menu);
 
   console.log("user", user);
 
@@ -39,27 +43,73 @@ const Navbar = () => {
   };
 
   return (
-    <div className="">
+    <div className="mt-2">
       <div className={`flex font-extrabold h-full`}>
-        <div
-          className={`h-fit my-auto text-4xl ml-2 cursor-pointer`}
-          onClick={() => {
-            navigate("/");
-            dispatch(setMenuPollutionTypeStatus(false));
-          }}
-        >
-          <span className="text-[#0A5B0D]">Natureza</span>
-          <span className="text-[#944B0A]">Fala</span>
-        </div>
-        <div className="flex ml-auto mr-2">
-          <BsSearch className="my-auto w-fit  mr-3" size={33} color="#0A5B0D" />
-          <GiHamburgerMenu
-            className="my-auto w-fit"
-            size={46}
-            color="#944B0A"
-            onClick={handleMenu}
-          />
-        </div>
+        {!searchInput && (
+          <div
+            className={`h-fit my-auto text-4xl ml-2 cursor-pointer`}
+            onClick={() => {
+              navigate("/");
+              dispatch(setMenuPollutionTypeStatus(false));
+            }}
+          >
+            <span className="text-[#0A5B0D]">Natureza</span>
+            <span className="text-[#944B0A]">Fala</span>
+          </div>
+        )}
+        {searchInput && (
+          <div className="flex mx-2 w-full">
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Digite sua pesquisa"
+                className="py-2 px-2 border border-gray-300 rounded-md w-full"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <div
+                className="absolute inset-y-0 right-0 flex items-center cursor-pointer"
+                onClick={() =>
+                  navigate(`/ponto/procurar/${encodeURIComponent(search)}`)
+                }
+              >
+                <BsSearch
+                  className="my-auto w-fit  mr-3"
+                  size={33}
+                  color="#0A5B0D"
+                />
+              </div>
+            </div>
+            <GiHamburgerMenu
+              className="my-auto w-fit"
+              size={46}
+              color="#944B0A"
+              onClick={handleMenu}
+            />
+          </div>
+        )}
+        {!searchInput && (
+          <div className="flex mx-2 w-full">
+            <div className="relative w-full">
+              <div
+                className="absolute inset-y-0 right-0 flex items-center"
+                onClick={() => setSearchInput(!searchInput)}
+              >
+                <BsSearch
+                  className="my-auto w-fit  mr-3"
+                  size={33}
+                  color="#0A5B0D"
+                />
+              </div>
+            </div>
+            <GiHamburgerMenu
+              className="my-auto w-fit"
+              size={46}
+              color="#944B0A"
+              onClick={handleMenu}
+            />
+          </div>
+        )}
       </div>
       <div
         className={`mb-2 flex flex-wrap justify-center items-center font-semibold ${
