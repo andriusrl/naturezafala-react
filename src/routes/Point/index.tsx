@@ -6,7 +6,7 @@ import api from "../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { ptBR } from "date-fns/locale";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import ReactPaginate from "react-paginate";
 
 export default function Point() {
@@ -18,6 +18,11 @@ export default function Point() {
   const [point, setPoint]: any = useState(undefined);
   const [images, setImages]: any = useState(undefined);
   const [comments, setComments]: any = useState(undefined);
+  const [vote, setVote] = useState({
+    true: 0,
+    false: 0,
+    vote: undefined,
+  });
 
   const [pageComments, setPageComments] = useState(1);
 
@@ -74,8 +79,6 @@ export default function Point() {
       `/comment/point/${Number(pointId)}?page=${pageComments}&limit=${12}`
     );
 
-    console.log("response find comments", response.data);
-
     setComments({
       items: response.data.items.map((comment: any) => {
         const dateString = new Date(comment.date).toDateString();
@@ -92,10 +95,38 @@ export default function Point() {
     });
   };
 
+  const getVoteByPoint = async () => {
+    const response = await api.get(`/pointvote/point/${Number(pointId)}`);
+
+    setVote({
+      true: response.data.true,
+      false: response.data.false,
+      vote: response.data.vote,
+    });
+  };
+
   const getImageByPoint = async () => {
     const response = await api.get(`/image/point/${Number(pointId)}`);
 
     setImages(response.data);
+  };
+
+  const handleVote = async (vote) => {
+    await api.post(
+      `/pointvote/${pointId}`,
+      {
+        vote,
+      },
+      { headers: { Authorization: `Bearer ${user.token}` } }
+    );
+
+    getPoint();
+
+    alert(
+      `Você votou que o ponto ${
+        vote ? "foi solucionado" : "não foi solucionado"
+      }`
+    );
   };
 
   const handlePageComment = (value) => {
@@ -107,6 +138,7 @@ export default function Point() {
     getPoint();
     getImageByPoint();
     getCommentByPoint();
+    getVoteByPoint();
   }, []);
 
   return updateStatus ? (
@@ -158,20 +190,6 @@ export default function Point() {
                   </div>
                 )}
               </div>
-
-              {/* <div className="mt-2 w-fit mx-auto">
-                <input
-                  placeholder="Longitude"
-                  className="text-2xl pl-2 border border-slate-400 rounded-md"
-                  value={point.longitude}
-                  {...register("longitude", { required: true })}
-                />
-                {errors.longitude && (
-                  <div className="w-fit mt-1 text-red-600">
-                    Colocar a longitude
-                  </div>
-                )}
-              </div> */}
             </div>
           )}
         </div>
@@ -226,6 +244,31 @@ export default function Point() {
                 </button>
               </div>
             )}
+          </div>
+          <div className="text-xl my-4">
+            <div>
+              <div>{vote.true} Marcaram que foi solucionado</div>
+              <div>{vote.false} Marcaram que não foi solucionado</div>
+            </div>
+            <div className="flex justify-between">
+              <button
+                onClick={() => handleVote(true)}
+                className={`${
+                  vote.vote ? "bg-slate-400" : "bg-slate-200"
+                } rounded-lg p-2 font-extrabold text-xl`}
+              >
+                Solucionado
+              </button>
+
+              <button
+                onClick={() => handleVote(false)}
+                className={`${
+                  !vote.vote ? "bg-slate-400" : "bg-slate-200"
+                } rounded-lg p-2 font-extrabold text-xl`}
+              >
+                Não Solucionado
+              </button>
+            </div>
           </div>
           <div>
             <div className="flex-col w-fit mx-auto">
