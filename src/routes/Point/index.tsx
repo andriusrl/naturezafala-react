@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -12,6 +12,11 @@ import ReactPaginate from "react-paginate";
 export default function Point() {
   const { pointId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const state = location.state;
+
+  console.log("state", state);
 
   const user = useAppSelector((state) => state.user);
 
@@ -310,7 +315,15 @@ export default function Point() {
 
           <div className="flex justify-center mt-2">
             <button
-              onClick={() => navigate("/")}
+              onClick={() =>
+                state?.previousSearch
+                  ? navigate(
+                      `/ponto/procurar/${encodeURIComponent(
+                        state?.previousSearch
+                      )}`
+                    )
+                  : navigate("/")
+              }
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Voltar

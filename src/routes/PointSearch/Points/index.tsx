@@ -80,7 +80,11 @@ export default function Points() {
                     {pointItem.name}
                   </p>
                   <button
-                    onClick={() => navigate(`/moderacao/ponto/${pointItem.id}`)}
+                    onClick={() =>
+                      navigate(`/ponto/${pointItem.id}`, {
+                        state: { previousSearch: search },
+                      })
+                    }
                     className="p-2 ml-auto bg-slate-400 rounded-lg p-2 font-bold text-xl"
                   >
                     Visualizar

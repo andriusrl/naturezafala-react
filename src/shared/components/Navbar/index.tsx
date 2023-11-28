@@ -22,7 +22,10 @@ const Navbar = () => {
 
   const user = useAppSelector((state) => state.user);
 
-  const handleMenu = () => setMenu(!menu);
+  const handleMenu = () => {
+    setSearchInput(false);
+    setMenu(!menu);
+  };
 
   console.log("user", user);
 
