@@ -29,6 +29,9 @@ export default function Point() {
     vote: undefined,
   });
 
+  console.log("point");
+  console.log(point);
+
   const [pageComments, setPageComments] = useState(1);
 
   const [updateStatus, setUpdateStatus] = useState(false);
@@ -65,7 +68,9 @@ export default function Point() {
   // console.log(watch("email"))
 
   const getPoint = async () => {
-    const response = await api.get(`/point/${Number(pointId)}`);
+    const response = await api.get(`/point/${Number(pointId)}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
 
     const dateString = new Date(response.data.date).toDateString();
 
@@ -234,12 +239,11 @@ export default function Point() {
       {point && (
         <div className="p-2 mx-2 border">
           <div className="flex-col w-fit mx-auto">
-            <h2 className="w-fit mx-auto text-3xl">{point.name}</h2>
+            <h2 className="w-fit mx-auto text-3xl">{point.name}</h2>(
+            {point.date})
           </div>
           <div className="">
-            <p className="text-2xl">
-              {point.description}({point.date})
-            </p>
+            <p className="text-2xl">{point.description}</p>
           </div>
           <div className="">
             {/* <h2 className="w-fit mx-auto text-3xl">Fotos</h2> */}
@@ -328,7 +332,7 @@ export default function Point() {
               renderOnZeroPageCount={null}
             />
           </div>
-          <div className="w-full">
+          <div className="w-fit mx-auto">
             <button
               onClick={() => navigate(`/comentar/${Number(pointId)}`)}
               className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
@@ -339,25 +343,30 @@ export default function Point() {
 
           <div className="flex justify-center mt-2">
             <button
-              onClick={() =>
-                state?.previousSearch
-                  ? navigate(
-                      `/ponto/procurar/${encodeURIComponent(
-                        state?.previousSearch
-                      )}`
-                    )
-                  : navigate("/")
-              }
+              onClick={() => {
+                if (state?.previousSearch)
+                  return navigate(
+                    `/ponto/procurar/${encodeURIComponent(
+                      state?.previousSearch
+                    )}`
+                  );
+
+                if (state?.returnMyPoints) return navigate("/meuspontos");
+
+                navigate("/");
+              }}
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Voltar
             </button>
-            <button
-              onClick={() => setUpdateStatus(true)}
-              className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-            >
-              Editar
-            </button>
+            {point?.user && (
+              <button
+                onClick={() => setUpdateStatus(true)}
+                className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              >
+                Editar
+              </button>
+            )}
           </div>
         </div>
       )}
