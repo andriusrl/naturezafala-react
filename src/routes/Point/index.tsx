@@ -243,6 +243,9 @@ export default function Point() {
           <div className="">
             <p className="text-2xl">{point.description}</p>
           </div>
+
+          <hr className="my-2" />
+          
           <div className="">
             {/* <h2 className="w-fit mx-auto text-3xl">Fotos</h2> */}
             {images?.length > 0 ? (
@@ -267,6 +270,9 @@ export default function Point() {
               </div>
             )}
           </div>
+
+          <hr className="my-2" />
+
           <div className="text-xl my-4">
             <div>
               <div>
@@ -303,6 +309,9 @@ export default function Point() {
               </button>
             </div>
           </div>
+
+          <hr className="my-2" />
+
           <div>
             <div className="flex-col w-fit mx-auto">
               <h2 className="w-fit mx-auto text-3xl font-semibold">
@@ -340,6 +349,8 @@ export default function Point() {
               Comentar
             </button>
           </div>
+
+          <hr className="my-2" />
 
           <div className="flex justify-center mt-2">
             <button
