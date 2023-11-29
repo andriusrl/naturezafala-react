@@ -70,7 +70,7 @@ const Navbar = () => {
               <div
                 className="absolute inset-y-0 right-0 flex items-center cursor-pointer"
                 onClick={() =>
-                  navigate(`/ponto/procurar/${encodeURIComponent(search)}`)
+                  search.length > 0 && navigate(`/ponto/procurar/${encodeURIComponent(search)}`,)
                 }
               >
                 <BsSearch
@@ -112,9 +112,8 @@ const Navbar = () => {
         )}
       </div>
       <div
-        className={`mb-2 flex flex-wrap justify-center items-center font-semibold ${
-          menu ? "" : "hidden"
-        }`}
+        className={`mb-2 flex flex-wrap justify-center items-center font-semibold ${menu ? "" : "hidden"
+          }`}
       >
         <Link
           to="/"
