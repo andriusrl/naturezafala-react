@@ -78,22 +78,32 @@ export default function ModerationImages() {
           {images &&
             images.items.map((imageItem) => (
               <div className="border mt-1 p-1">
-                <div className="flex">
-                  <div className="w-52 h-[52]">
-                    <img src={imageItem.url} className="object-cover" />
+                <div className="flex justify-between">
+                  <div className="my-auto">
+                    <img
+                      src={imageItem.url}
+                      className="w-24 h-24 object-cover"
+                    />
+                  </div>
+
+                  <div className="my-auto">
+                    <p className="w-fit h-fit my-auto font-semibold">
+                      {imageItem.status ? (
+                        <span className="text-blue-700">Ativo</span>
+                      ) : (
+                        <span className="text-red-600">Inativo</span>
+                      )}
+                    </p>
                   </div>
 
                   <button
-                    onClick={() => navigate(`/moderacao/imagem/${imageItem.id}`)}
-                    className="p-2 ml-auto bg-slate-400 rounded-lg p-2 font-bold text-xl"
+                    onClick={() =>
+                      navigate(`/moderacao/imagem/${imageItem.id}`)
+                    }
+                    className="p-2 bg-slate-400 rounded-lg p-2 font-bold text-xl"
                   >
                     Visualizar
                   </button>
-                </div>
-                <div className="flex">
-                  <p className="w-fit h-fit my-auto ml-auto mr-2 font-semibold">
-                    {imageItem.status ? "Ativo" : "Inativo"}
-                  </p>
                 </div>
               </div>
             ))}

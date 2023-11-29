@@ -32,7 +32,12 @@ export default function ModerationImage() {
   };
 
   const getImage = async () => {
-    const response = await api.get(`/image/${Number(imageId)}`);
+    const response = await api.get(`/image/${Number(imageId)}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+
+    console.log("response GET IMAGE");
+    console.log(response.data);
 
     setImage(response.data);
   };
@@ -62,12 +67,12 @@ export default function ModerationImage() {
 
           <div className="mx-3 my-auto"> | </div>
 
-          {!image.status ? (
+          {!image?.status ? (
             <button
               onClick={() => handleActivate(true)}
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
-              Ativar ponto
+              Ativar Imagem
             </button>
           ) : (
             <button
