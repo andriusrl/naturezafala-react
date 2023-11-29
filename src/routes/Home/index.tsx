@@ -58,7 +58,17 @@ export default function Home() {
 
   return (
     <div>
-      {!user.menuPollutionTypeStatus && <Map />}
+      {!user.menuPollutionTypeStatus && (
+        <Map
+          handleClickMark={(valorPassado) => {
+            console.log("handleClickMark ");
+
+            console.log(valorPassado);
+
+            dispatch(setMenuPollutionTypeStatus(true));
+          }}
+        />
+      )}
 
       {user.menuPollutionTypeStatus && pollutionTypeList && (
         <div className="space-y-4">

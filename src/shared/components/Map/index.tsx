@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import {
+  MapContainer,
+  // MapConsumer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/images/marker-shadow.png";
@@ -29,7 +36,7 @@ enum typePollution {
   air,
 }
 
-export default function Map() {
+export default function Map(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,6 +57,24 @@ export default function Map() {
     setMarkingPoints(response.data);
   };
 
+  function MyComponent() {
+    console.log("Teste myComponent");
+    const map = useMapEvents({
+      click: async (location) => {
+        console.log("CLICANDO");
+        console.log(location.latlng);
+        await dispatch(setLat(location.latlng.lat));
+        await dispatch(setLong(location.latlng.lng));
+        props.handleClickMark(location.latlng);
+        return map.locate();
+      },
+      locationfound: (location) => {
+        console.log("location found:", location);
+      },
+    });
+    return null;
+  }
+
   useEffect(() => {
     getPoints();
   }, []);
@@ -62,6 +87,9 @@ export default function Map() {
     dispatch(setLat(latitude));
     dispatch(setLong(longitude));
   }
+
+  console.log("latitude, longitude");
+  console.log(latitude, longitude);
 
   useEffect(() => {
     const checkPermission = async () => {
@@ -172,6 +200,8 @@ export default function Map() {
                 </Marker>
               );
             })}
+
+            <MyComponent />
           </MapContainer>
         )}
         {latitude === null && (
