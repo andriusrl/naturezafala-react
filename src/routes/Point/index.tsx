@@ -101,10 +101,9 @@ export default function Point() {
   };
 
   const getVoteByPoint = async () => {
-    const response = await api.get(
-      `/pointvote/point/${Number(pointId)}`,
-      { headers: { Authorization: `Bearer ${user.token}` } }
-    );
+    const response = await api.get(`/pointvote/point/${Number(pointId)}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
 
     setVote({
       true: response.data.true,
@@ -134,11 +133,12 @@ export default function Point() {
       getVoteByPoint();
 
       alert(
-        `Você votou que o ponto ${vote ? "foi solucionado" : "não foi solucionado"
+        `Você votou que o ponto ${
+          vote ? "foi solucionado" : "não foi solucionado"
         }`
       );
     } catch (err) {
-      alert("É necessário estar logado para votar")
+      alert("É necessário estar logado para votar");
       navigate("/entrar");
     }
   };
@@ -237,7 +237,9 @@ export default function Point() {
             <h2 className="w-fit mx-auto text-3xl">{point.name}</h2>
           </div>
           <div className="">
-            <p className="text-2xl">{point.description}({point.date})</p>
+            <p className="text-2xl">
+              {point.description}({point.date})
+            </p>
           </div>
           <div className="">
             {/* <h2 className="w-fit mx-auto text-3xl">Fotos</h2> */}
@@ -263,23 +265,35 @@ export default function Point() {
           </div>
           <div className="text-xl my-4">
             <div>
-              <div><span className="text-blue-600 font-bold">{vote.true}</span> Marcaram que foi solucionado.</div>
-              <div><span className="text-red-600 font-bold">{vote.false}</span> Marcaram que não foi solucionado.</div>
+              <div>
+                <span className="text-blue-600 font-bold">{vote.true}</span>{" "}
+                Marcaram que foi solucionado.
+              </div>
+              <div>
+                <span className="text-red-600 font-bold">{vote.false}</span>{" "}
+                Marcaram que não foi solucionado.
+              </div>
             </div>
             Você também pode marcar abaixo:
             <div className="flex justify-between">
               <button
                 onClick={() => handleVote(true)}
-                className={`${vote.vote ? "bg-slate-400" : "bg-slate-200"
-                  } rounded-lg p-2 font-extrabold text-xl`}
+                className={`${
+                  vote.vote ? "bg-slate-400" : "bg-slate-200"
+                } rounded-lg p-2 font-extrabold text-xl`}
               >
                 Solucionado
               </button>
 
               <button
                 onClick={() => handleVote(false)}
-                className={`${!vote.vote ? "bg-slate-400" : "bg-slate-200"
-                  } rounded-lg p-2 font-extrabold text-xl`}
+                className={`${
+                  vote.vote !== undefined
+                    ? !vote.vote
+                      ? "bg-slate-400"
+                      : "bg-slate-200"
+                    : "bg-slate-200"
+                } rounded-lg p-2 font-extrabold text-xl`}
               >
                 Não Solucionado
               </button>
@@ -328,10 +342,10 @@ export default function Point() {
               onClick={() =>
                 state?.previousSearch
                   ? navigate(
-                    `/ponto/procurar/${encodeURIComponent(
-                      state?.previousSearch
-                    )}`
-                  )
+                      `/ponto/procurar/${encodeURIComponent(
+                        state?.previousSearch
+                      )}`
+                    )
                   : navigate("/")
               }
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
