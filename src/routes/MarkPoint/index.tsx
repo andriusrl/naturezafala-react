@@ -1,11 +1,12 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
 
 export default function MarkPoint() {
   const { pollutionTypeId } = useParams();
+  const navigate = useNavigate();
 
   console.log("pollutionTypeId", pollutionTypeId);
 
@@ -31,15 +32,19 @@ export default function MarkPoint() {
     console.log(data);
     console.log("registrado");
 
-    const response = await api.post("/point", {
-      name: data.name,
-      description: data.description,
-      latitude: user.lat,
-      longitude: user.long,
-      pollution_type: pollutionTypeId,
-    });
+    const response = await api.post(
+      "/point",
+      {
+        name: data.name,
+        description: data.description,
+        latitude: user.lat,
+        longitude: user.long,
+        pollutionType: pollutionTypeId,
+      },
+      { headers: { Authorization: `Bearer ${user.token}` } }
+    );
 
-    console.log("response", response.data);
+    navigate("/");
   };
 
   // console.log(watch("email"))

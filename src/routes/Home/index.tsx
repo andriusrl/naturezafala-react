@@ -51,7 +51,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    dispatch(setMenuPollutionTypeStatus(false));
     getPollutionType();
     dispatch(setMenuPollutionTypeStatus(false));
   }, []);
@@ -60,10 +59,16 @@ export default function Home() {
     <div>
       {!user.menuPollutionTypeStatus && (
         <Map
-          handleClickMark={(valorPassado) => {
-            console.log("handleClickMark ");
+          handleClickMark={async () => {
+            const logged = await checkLogged();
 
-            console.log(valorPassado);
+            if (logged) {
+              return dispatch(
+                setMenuPollutionTypeStatus(!user.menuPollutionTypeStatus)
+              );
+            }
+            alert("Você precisa estar logado para marcar um ponto");
+            navigate("/entrar");
 
             dispatch(setMenuPollutionTypeStatus(true));
           }}
