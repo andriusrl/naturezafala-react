@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { user as useStorage } from "../../../config/localStorage/localStorage";
 import {
   setToken,
   setName,
   setMenuPollutionTypeStatus,
+  setType,
 } from "../../../features/user/user-slice";
 import { useAppSelector } from "../../../hooks";
 
@@ -21,6 +22,8 @@ const Navbar = () => {
   const [search, setSearch] = useState("");
 
   const user = useAppSelector((state) => state.user);
+
+  console.log("user", user);
 
   const handleMenu = () => {
     setSearchInput(false);
@@ -38,6 +41,7 @@ const Navbar = () => {
     useStorage.remove();
     dispatch(setToken(null));
     dispatch(setName(null));
+    dispatch(setType(null));
     navigate(`/`);
     dispatch(setMenuPollutionTypeStatus(false));
   };
@@ -70,7 +74,8 @@ const Navbar = () => {
               <div
                 className="absolute inset-y-0 right-0 flex items-center cursor-pointer"
                 onClick={() =>
-                  search.length > 0 && navigate(`/ponto/procurar/${encodeURIComponent(search)}`,)
+                  search.length > 0 &&
+                  navigate(`/ponto/procurar/${encodeURIComponent(search)}`)
                 }
               >
                 <BsSearch
@@ -112,8 +117,9 @@ const Navbar = () => {
         )}
       </div>
       <div
-        className={`mb-2 flex flex-wrap justify-center items-center font-semibold ${menu ? "" : "hidden"
-          }`}
+        className={`mb-2 flex flex-wrap justify-center items-center font-semibold ${
+          menu ? "" : "hidden"
+        }`}
       >
         <Link
           to="/"
@@ -122,6 +128,19 @@ const Navbar = () => {
         >
           Página inicial
         </Link>
+        {user?.type !== 0 && (
+          <>
+            <div className="flex-1/3">
+              <span className="mx-2">|</span>
+              <span
+                onClick={() => navigate("/meuspontos")}
+                className="bg-slate-200 rounded-lg p-2 cursor-pointer"
+              >
+                Meus pontos
+              </span>
+            </div>
+          </>
+        )}
         {showLoginRegister && (
           <>
             <span className="mx-2">|</span>

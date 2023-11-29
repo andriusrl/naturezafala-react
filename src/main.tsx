@@ -20,6 +20,7 @@ import ModerationPoints from "./routes/moderation/ModerationPoints";
 import ModerationImages from "./routes/moderation/ModerationImages";
 import ModerationImage from "./routes/moderation/ModerationImage";
 import PointSearch from "./routes/PointSearch";
+import MyPoints from "./routes/MyPoints";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/ponto/procurar/:search",
         element: <PointSearch />,
+      },
+      {
+        path: "/meuspontos",
+        element: <MyPoints />,
       },
       {
         path: "/moderacao/imagem/:imageId",

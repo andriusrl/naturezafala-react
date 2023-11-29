@@ -65,8 +65,6 @@ export default function Point() {
     // console.log("response", response.data);
   };
 
-  // console.log(watch("email"))
-
   const getPoint = async () => {
     const response = await api.get(`/point/${Number(pointId)}`, {
       headers: { Authorization: `Bearer ${user.token}` },
@@ -258,12 +256,14 @@ export default function Point() {
             ) : (
               <div className="flex-col w-fit mx-auto">
                 <div className="w-fit mx-auto">Nenhuma imagem</div>
-                <button
-                  onClick={() => navigate(`/ponto/imagem/${pointId}`)}
-                  className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-                >
-                  Adicionar imagem
-                </button>
+                {point?.user && (
+                  <button
+                    onClick={() => navigate(`/ponto/imagem/${pointId}`)}
+                    className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+                  >
+                    Adicionar imagem
+                  </button>
+                )}
               </div>
             )}
           </div>
