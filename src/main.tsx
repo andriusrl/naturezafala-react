@@ -21,6 +21,7 @@ import ModerationImages from "./routes/moderation/ModerationImages";
 import ModerationImage from "./routes/moderation/ModerationImage";
 import PointSearch from "./routes/PointSearch";
 import MyPoints from "./routes/MyPoints";
+import MyAccess from "./routes/MyAccess";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/meuspontos",
         element: <MyPoints />,
+      },
+      {
+        path: "/meusacessos",
+        element: <MyAccess />,
       },
       {
         path: "/moderacao/imagem/:imageId",

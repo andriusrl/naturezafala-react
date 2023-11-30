@@ -139,6 +139,16 @@ const Navbar = () => {
                 Meus pontos
               </span>
             </div>
+
+            <div className="flex-1/3">
+              <span className="mx-2">|</span>
+              <span
+                onClick={() => navigate("/meusacessos")}
+                className="bg-slate-200 rounded-lg p-2 cursor-pointer"
+              >
+                Meus acessos
+              </span>
+            </div>
           </>
         )}
         {showLoginRegister && (
