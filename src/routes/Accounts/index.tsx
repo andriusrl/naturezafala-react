@@ -14,10 +14,9 @@ export default function Accounts() {
 
   const [users, setUsers]: any = useState(undefined);
   const [search, setSearch]: any = useState("");
+  const [mostVoted, setMostVoted]: boolean = useState(false);
 
   const [page, setPage] = useState(1);
-
-  console.log("page", page);
 
   const getUser = async (currentPage = 1) => {
     const response = await api.get(`/user?page=${currentPage}&limit=${12}`, {
@@ -67,11 +66,39 @@ export default function Accounts() {
     });
   };
 
+  const getMostVoted = async (currentPage = 1) => {
+    const response = await api.get(
+      `/pointvote/mostvoted?page=${currentPage}&limit=${12}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      }
+    );
+
+    console.log("response", response.data);
+
+    setUsers({
+      items: response.data.items.map((userItem: any) => {
+        const dateString = new Date(userItem.birthDate).toDateString();
+
+        const data = new Date(dateString);
+
+        const dateFormated = format(data, "dd/MM/yyyy", {
+          locale: ptBR,
+          useAdditionalDayOfYearTokens: true,
+        });
+        return { ...userItem, birthDate: dateFormated };
+      }),
+      meta: response.data.meta,
+    });
+  };
+
   const handlePage = async (value) => {
     await setPage(value.selected + 1);
 
     search.length > 0
       ? getUserSearch(value.selected + 1)
+      : mostVoted
+      ? getMostVoted()
       : getUser(value.selected + 1);
   };
 
@@ -82,6 +109,10 @@ export default function Accounts() {
   useEffect(() => {
     getUserSearch();
   }, [search]);
+
+  useEffect(() => {
+    mostVoted ? getMostVoted() : getUser();
+  }, [mostVoted]);
 
   useEffect(() => {
     getUser();
@@ -100,6 +131,12 @@ export default function Accounts() {
           value={search}
           onChange={handleSearch}
         />
+        <button
+          onClick={() => setMostVoted(!mostVoted)}
+          className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+        >
+          Mais populares
+        </button>
         <div>
           {users &&
             users.items.map((userItem) => (
@@ -123,7 +160,7 @@ export default function Accounts() {
             onPageChange={handlePage}
             pageRangeDisplayed={2}
             pageCount={users?.meta?.totalPages}
-            previousLabel="<div "
+            previousLabel="< "
             renderOnZeroPageCount={null}
           />
         </div>
