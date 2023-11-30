@@ -7,12 +7,12 @@ import InputMask from "react-input-mask";
 export default function Register() {
   const navigate = useNavigate();
 
-  type loginType = {
+  type RegisterType = {
     name: string;
     email: string;
     password: string;
     birthDate: Date;
-    fone: number;
+    fone: string;
     cpf: string;
     confirmPassword: string;
   };
@@ -21,9 +21,9 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<loginType>();
+  } = useForm<RegisterType>();
 
-  const onSubmit: SubmitHandler<loginType> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterType> = async (data) => {
     if (data.password !== data.confirmPassword) {
       return alert("Senhas não conferem");
     }
@@ -33,7 +33,7 @@ export default function Register() {
       email: data.email,
       password: data.password,
       birthDate: data.birthDate,
-      fone: data.fone,
+      fone: data.fone.replace(/\D/g, ""),
       cpf: data.cpf.replace(/\D/g, ""),
     };
 
@@ -98,8 +98,9 @@ export default function Register() {
           </div>
 
           <div className="mt-2">
-            <input
-              maxLength={12}
+            <InputMask
+              mask="(99) 999 999 999"
+              maxLength={17}
               placeholder="Telefone"
               className="text-2xl pl-2 border border-slate-400 rounded-md"
               {...register("fone", { required: true })}
@@ -130,6 +131,7 @@ export default function Register() {
           <div className="mt-2">
             <input
               maxLength={30}
+              type="password"
               placeholder="Senha"
               className="text-2xl pl-2 border border-slate-400 rounded-md"
               {...register("password", { required: true })}
@@ -144,6 +146,7 @@ export default function Register() {
           <div className="mt-2">
             <input
               maxLength={30}
+              type="password"
               placeholder="Confirme a senha"
               className="text-2xl pl-2 border border-slate-400 rounded-md"
               {...register("confirmPassword", { required: true })}
