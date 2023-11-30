@@ -2,6 +2,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import api from "../../config/axios/api";
 import { useNavigate } from "react-router-dom";
+import InputMask from "react-input-mask";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function Register() {
       password: data.password,
       birthDate: data.birthDate,
       fone: data.fone,
-      cpf: data.cpf,
+      cpf: data.cpf.replace(/\D/g, ""),
     };
 
     try {
@@ -49,8 +50,6 @@ export default function Register() {
         return alert("E-mail já cadastrado");
     }
   };
-
-  // console.log(watch("email"))
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -113,8 +112,10 @@ export default function Register() {
           </div>
 
           <div className="mt-2">
-            <input
-              maxLength={11}
+            <InputMask
+              mask="999.999.999-99"
+              inputMode="numeric"
+              maxLength={15}
               placeholder="CPF"
               className="text-2xl pl-2 border border-slate-400 rounded-md"
               {...register("cpf", { required: true })}
