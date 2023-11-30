@@ -62,12 +62,12 @@ export default function MyAccess() {
           {access &&
             access.items.map((accessItem) => (
               <div key={accessItem.id} className="border mt-1 p-1">
-                <div className="flex justify-between">
+                <div className="flex px-2">
                   <p className="text-lg font-bold h-fit my-auto">
                     {ACCESS_HELPER[accessItem.action - 1]}
                   </p>
 
-                  <p className="text-lg font-bold h-fit my-auto">
+                  <p className="text-lg font-bold h-fit my-auto ml-auto mr-[10%]">
                     {accessItem.description}
                   </p>
 
