@@ -46,6 +46,9 @@ const Navbar = () => {
     dispatch(setMenuPollutionTypeStatus(false));
   };
 
+  console.log("user?.type");
+  console.log(user?.type);
+
   return (
     <div className="mt-2">
       <div className={`flex font-extrabold h-full`}>
@@ -128,7 +131,7 @@ const Navbar = () => {
         >
           Página inicial
         </Link>
-        {user?.type !== 0 && (
+        {user?.type !== 0 && user?.type !== null && (
           <>
             <div className="flex-1/3">
               <span className="mx-2">|</span>
