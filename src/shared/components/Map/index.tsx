@@ -41,11 +41,6 @@ export default function Map(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-  console.log('props?.location.lat')
-  console.log(props?.location.lat)
-  console.log(props?.location.lng)
-
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
 
