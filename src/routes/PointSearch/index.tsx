@@ -12,9 +12,12 @@ export default function PointSearch() {
   const { search } = useParams();
   const navigate = useNavigate();
 
+  const [loadingCity, setLoadingCity] = useState(false)
+
   const user = useAppSelector((state) => state.user);
 
   const [points, setPoints]: any = useState(undefined);
+  const [city, setCity]: any = useState(undefined);
 
   const [page, setPage] = useState(1);
 
@@ -35,6 +38,19 @@ export default function PointSearch() {
     });
   };
 
+  const getCitySearch = async () => {
+    setLoadingCity(true)
+    const response = await api.post(
+      `http://localhost:3012/point/city/search`,
+      { text: search },
+    );
+    setLoadingCity(false)
+
+    console.log("CIDADE", response.data);
+
+    setCity(response.data)
+  };
+
   const handlePage = async (value) => {
     await setPage(value.selected + 1);
 
@@ -53,6 +69,7 @@ export default function PointSearch() {
 
   useEffect(() => {
     getPointSearch();
+    getCitySearch();
   }, []);
 
   // console.log("points", points);
@@ -63,15 +80,16 @@ export default function PointSearch() {
         <div className="flex-col w-fit mx-auto">
           <h2 className="w-fit mx-auto text-3xl">Pesquisando: {search}</h2>
         </div>
-        {/* <input
-          type="text"
-          placeholder="Pesquise um ponto"
-          className="border w-full p-2 text-lg"
-          value={search}
-          onChange={handleSearch}
-        /> */}
+        
+        <div className="flex-col w-fit mx-auto">
+          Cidades ou lugares encontrados:
+            {loadingCity && <div>Carregando cidades...</div>}
+            {city && city.map((cityItem) => (<span className="ml-2 p-1 bg-[#944B0A] rounded-lg cursor-pointer">{cityItem?.name}</span>))}
+
+        </div>
         <div className=""></div>
         <div>
+          {points.items.length === 0 && (<div className="w-fit mx-auto">Nenhum ponto encontrado com esse nome.</div>)}
           {points &&
             points.items.map((pointItem) => (
               <div key={pointItem.id} className="border mt-1 p-1">

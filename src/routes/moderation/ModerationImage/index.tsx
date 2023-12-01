@@ -79,7 +79,7 @@ export default function ModerationImage() {
               onClick={() => handleActivate(false)}
               className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
-              Desativar ponto
+              Desativar Imagem
             </button>
           )}
         </div>
