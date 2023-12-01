@@ -100,7 +100,7 @@ export default function PointSearch() {
                 }
                 className="ml-2 mt-2 p-1 bg-[#944B0A] rounded-lg cursor-pointer break-all"
               >
-                {cityItem?.name}
+                {cityItem?.name}-{cityItem?.state}
               </span>
             ))}
           {city?.length === 0 && (
