@@ -89,7 +89,7 @@ export default function PointSearch() {
         </div>
         <div className=""></div>
         <div>
-          {points.items.length === 0 && (<div className="w-fit mx-auto">Nenhum ponto encontrado com esse nome.</div>)}
+          {points?.items?.length === 0 && (<div className="w-fit mx-auto">Nenhum ponto encontrado com esse nome.</div>)}
           {points &&
             points.items.map((pointItem) => (
               <div key={pointItem.id} className="border mt-1 p-1">

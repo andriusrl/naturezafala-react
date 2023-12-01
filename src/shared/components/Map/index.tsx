@@ -36,9 +36,15 @@ enum typePollution {
   air,
 }
 
+
 export default function Map(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
+  console.log('props?.location.lat')
+  console.log(props?.location.lat)
+  console.log(props?.location.lng)
 
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -90,6 +96,8 @@ export default function Map(props) {
 
   console.log("latitude, longitude");
   console.log(latitude, longitude);
+
+  console.log([parseFloat(props?.location?.lat.replace(',', '.')), parseFloat(props?.location?.lng.replace(',', '.'))])
 
   useEffect(() => {
     const checkPermission = async () => {
@@ -152,7 +160,10 @@ export default function Map(props) {
       <div id="map">
         {latitude && longitude && (
           <MapContainer
-            center={[latitude, longitude]}
+            center={[
+              parseFloat(props?.location?.lat.replace(',', '.')) || latitude,
+              parseFloat(props?.location?.lng.replace(',', '.')) || longitude
+            ]}
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: "65vh", width: "100wh" }}
