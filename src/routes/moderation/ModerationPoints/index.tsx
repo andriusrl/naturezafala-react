@@ -20,7 +20,7 @@ export default function ModerationPoints() {
   const [page, setPage] = useState(1);
 
   const getPoints = async (currentPage = 1) => {
-    const response = await api.get(`/point?page=${currentPage}&limit=${12}`);
+    const response = await api.get(`/point?page=${currentPage}&limit=${12}`, { headers: { Authorization: `Bearer ${user.token}` } });
 
     console.log("getPoints", response.data);
 
