@@ -45,8 +45,12 @@ export default function Map(props) {
     null
   );
 
-  const getPoints = async () => {
-    const response = await api.get(`/point/km/${latitude}/${longitude}/20`);
+  const getPoints = async (lat?: number, lng?: number) => {
+    const response = await api.get(
+      `/point/km/${lat?.toFixed(6).replace(".", ",") || latitude}/${
+        lng?.toFixed(6).replace(".", ",") || longitude
+      }/20`
+    );
 
     setMarkingPoints(response.data);
   };
@@ -64,6 +68,10 @@ export default function Map(props) {
       },
       locationfound: (location) => {
         console.log("location found:", location);
+      },
+      moveend: (location) => {
+        const center = map.getCenter();
+        getPoints(center.lat, center.lng);
       },
     });
     return null;
@@ -146,6 +154,13 @@ export default function Map(props) {
     }
   };
 
+  const handleMapMove = (event) => {
+    const map = event.target;
+    const center = map.getCenter();
+    console.log("AO MOVER");
+    console.log("Latitude:", center.lat, "Longitude:", center.lng);
+  };
+
   return (
     <div>
       <div id="map">
@@ -162,6 +177,7 @@ export default function Map(props) {
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: "65vh", width: "100wh" }}
+            onMoveEnd={handleMapMove}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
