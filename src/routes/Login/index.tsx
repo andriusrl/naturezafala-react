@@ -84,12 +84,18 @@ export default function Login() {
             )}
           </div>
         </div>
-        <div className="flex justify-center mt-2">
+        <div className="flex justify-evenly mt-2 w-[70%] mx-auto">
           <button
             type="submit"
             className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
           >
             Entrar
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+          >
+            Voltar
           </button>
         </div>
       </div>

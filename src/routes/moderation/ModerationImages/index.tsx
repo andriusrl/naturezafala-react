@@ -7,6 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import ReactPaginate from "react-paginate";
 import convertDate from "../../../shared/helpers/dateConverter";
+import { set } from "date-fns";
 
 export default function ModerationImages() {
   const { pointId } = useParams();
@@ -16,23 +17,25 @@ export default function ModerationImages() {
 
   const [images, setImages]: any = useState(undefined);
   const [search, setSearch]: any = useState("");
+  const [filterStatus, setFilterStatus]: any = useState(undefined);
+
+  console.log('filterStatus')
+  console.log(filterStatus)
 
   const [page, setPage] = useState(1);
 
-  const getImages = async (currentPage = 1) => {
-    const response = await api.get(`/image?page=${currentPage}&limit=${12}`);
-
-    setImages(response.data);
-  };
-
   const getImageSearch = async (currentPage = 1) => {
+    console.log('getImageSearch')
     const response = await api.post(
-      `/image/search?page=${currentPage}&limit=${12}`,
+      `/image?page=${currentPage}&limit=${12}${filterStatus !== undefined ? `&status=${filterStatus === true ? "ativo" : "inativo"}` : ""}`,
       { text: search },
       {
         headers: { Authorization: `Bearer ${user.token}` },
       }
     );
+
+    console.log('response.data')
+    console.log(response.data)
 
     setImages({
       items: response.data.items,
@@ -40,12 +43,14 @@ export default function ModerationImages() {
     });
   };
 
+  console.log('novo teste image')
+  console.log(images)
+
   const handlePage = async (value) => {
     await setPage(value.selected + 1);
 
     search.length > 0
-      ? getImageSearch(value.selected + 1)
-      : getImages(value.selected + 1);
+      && getImageSearch(value.selected + 1);
   };
 
   const handleSearch = async (e) => {
@@ -53,11 +58,12 @@ export default function ModerationImages() {
   };
 
   useEffect(() => {
+    console.log('use do test')
     getImageSearch();
-  }, [search]);
+  }, [search, filterStatus]);
 
   useEffect(() => {
-    getImages();
+    getImageSearch();
   }, []);
 
   return (
@@ -68,12 +74,26 @@ export default function ModerationImages() {
         </div>
         <input
           type="text"
-          placeholder="Pesquise um ponto"
+          placeholder="Pesquise uma imagem"
           className="border w-full p-2 text-lg"
           value={search}
           onChange={handleSearch}
         />
-        <div className=""></div>
+        <div className="flex justify-center mt-2">
+          <div className="my-auto mr-2">Filtro:</div>
+          <button
+            onClick={() => setFilterStatus(filterStatus === true ? undefined : true)}
+            className={`${filterStatus === true ? "bg-slate-400" : "bg-slate-200"}  rounded-lg p-2 font-extrabold text-xl mr-2`}
+          >
+            Ativo
+          </button>
+          <button
+            onClick={() => setFilterStatus(filterStatus === true ? undefined : false)}
+            className={`${filterStatus === false ? "bg-slate-400" : "bg-slate-200"}  rounded-lg p-2 font-extrabold text-xl mr-2`}
+          >
+            Inativo
+          </button>
+        </div>
         <div>
           {images &&
             images.items.map((imageItem) => (

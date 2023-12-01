@@ -69,7 +69,7 @@ export default function ModerationPoint() {
   };
 
   const getPoint = async () => {
-    const response = await api.get(`/point/${Number(pointId)}`);
+    const response = await api.get(`/point/${Number(pointId)}`, { headers: { Authorization: `Bearer ${user.token}` } });
 
     const dateString = new Date(response.data.date).toDateString();
 
