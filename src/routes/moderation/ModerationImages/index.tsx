@@ -26,8 +26,18 @@ export default function ModerationImages() {
 
   const getImageSearch = async (currentPage = 1) => {
     console.log('getImageSearch')
+
+    // if (search.length === 0) {
+    //   const response = await api.get(`/image?page=${currentPage}&limit=${12}`);
+
+    //   console.log('response.data')
+    //   console.log(response.data)
+
+    //   setImages(response.data);
+    //   return;
+    // }
     const response = await api.post(
-      `/image?page=${currentPage}&limit=${12}${filterStatus !== undefined ? `&status=${filterStatus === true ? "ativo" : "inativo"}` : ""}`,
+      `/image/search?page=${currentPage}&limit=${12}${filterStatus !== undefined ? `&status=${filterStatus === true ? "ativo" : "inativo"}` : ""}`,
       { text: search },
       {
         headers: { Authorization: `Bearer ${user.token}` },
