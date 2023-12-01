@@ -92,7 +92,10 @@ export default function PointSearch() {
                     `/mapa/busca/${cityItem.lat.replace(
                       ".",
                       ","
-                    )}/${cityItem.lng.replace(".", ",")}`
+                    )}/${cityItem.lng.replace(".", ",")}`,
+                    {
+                      state: { previousSearch: search },
+                    }
                   )
                 }
                 className="ml-2 mt-2 p-1 bg-[#944B0A] rounded-lg cursor-pointer break-all"

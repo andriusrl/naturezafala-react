@@ -16,7 +16,7 @@ import TrashPng from "../../../assets/trash.png";
 import api from "../../../config/axios/api";
 import { useDispatch } from "react-redux";
 import { setLat, setLong } from "../../../features/user/user-slice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_SITEURL;
 
 const customPersonIcon = new Icon({
@@ -29,33 +29,12 @@ const customTrashIcon = new Icon({
   iconSize: [32, 32],
 });
 
-enum typePollution {
-  trash,
-  bush,
-  nouise,
-  air,
-}
-
 export default function Map(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // console.log("location map search");
-  // console.log(props?.location?.lat);
-  // console.log(props?.location?.lng);
-
-  const searchLocation = useState({
-    lat: props?.location?.lat,
-    lng: props?.location?.lng,
-  });
-
-  console.log("searchLocation");
-  console.log(searchLocation);
-
-  console.log("props?.location?.lat");
-  console.log(props?.location?.lat);
-  console.log("props?.location?.lat");
-  console.log(props?.location?.lat);
+  const state = location.state;
 
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -172,13 +151,12 @@ export default function Map(props) {
       <div id="map">
         {latitude && longitude && (
           <MapContainer
-            // center={[
-            //   parseFloat(props?.location?.lat.replace(",", ".")) || latitude,
-            //   parseFloat(props?.location?.lng.replace(",", ".")) || longitude,
-            // ]}
             center={
               parseFloat(props?.location?.lat.replace(",", "."))
-                ? [parseFloat(props?.location?.lat.replace(",", ".")), parseFloat(props?.location?.lng.replace(",", "."))]
+                ? [
+                    parseFloat(props?.location?.lat.replace(",", ".")),
+                    parseFloat(props?.location?.lng.replace(",", ".")),
+                  ]
                 : [latitude, longitude]
             }
             zoom={13}
@@ -232,6 +210,26 @@ export default function Map(props) {
             <MyComponent />
           </MapContainer>
         )}
+        {state?.previousSearch && (
+          <div className="w-fit mx-auto">
+            <button
+              onClick={() => {
+                if (state?.previousSearch)
+                  return navigate(
+                    `/ponto/procurar/${encodeURIComponent(
+                      state?.previousSearch
+                    )}`
+                  );
+
+                navigate("/");
+              }}
+              className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            >
+              Voltar
+            </button>
+          </div>
+        )}
+
         {latitude === null && (
           <div className="p-2 mx-2 border">
             <div>
