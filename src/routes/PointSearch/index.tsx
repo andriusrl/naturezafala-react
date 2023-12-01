@@ -80,10 +80,10 @@ export default function PointSearch() {
           <h2 className="w-fit mx-auto text-3xl">Pesquisando: {search}</h2>
         </div>
 
-        <div className="flex-col w-fit mx-auto whitespace-pre-wrap">
+        <div className="flex-col w-fit mx-auto whitespace-pre-wrap border w-full p-2">
           Cidades ou lugares encontrados:
           {loadingCity && <div>Carregando cidades...</div>}
-          {city &&
+          {city?.length > 0 &&
             city.map((cityItem, index) => (
               <span
                 key={index}
@@ -103,11 +103,16 @@ export default function PointSearch() {
                 {cityItem?.name}
               </span>
             ))}
+          {city?.length === 0 && (
+            <div className="text-red-600">
+              Nenhuma cidade encontrada com esse nome
+            </div>
+          )}
         </div>
-        <div className=""></div>
+        <div className="mt-2 w-fit mx-auto">Pontos Encontrados:</div>
         <div>
           {points?.items?.length === 0 && (
-            <div className="w-fit mx-auto">
+            <div className="w-fit mx-auto text-red-600">
               Nenhum ponto encontrado com esse nome.
             </div>
           )}
