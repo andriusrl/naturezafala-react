@@ -6,7 +6,11 @@ import api from "../../config/axios/api";
 import { useAppSelector } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setMenuPollutionTypeStatus } from "../../features/user/user-slice";
+import {
+  setLatMark,
+  setLongMark,
+  setMenuPollutionTypeStatus,
+} from "../../features/user/user-slice";
 
 export default function Home() {
   // const [menuMarkStatus, setMenuMarkStatus] = React.useState(false);
@@ -53,6 +57,8 @@ export default function Home() {
   useEffect(() => {
     getPollutionType();
     dispatch(setMenuPollutionTypeStatus(false));
+    dispatch(setLatMark(null));
+    dispatch(setLongMark(null));
   }, []);
 
   return (

@@ -7,6 +7,8 @@ interface UserState {
   type: number | null;
   lat: number | null;
   long: number | null;
+  latMark: number | null;
+  longMark: number | null;
   menuPollutionTypeStatus: boolean;
 }
 
@@ -16,6 +18,8 @@ const initialState: UserState = {
   type: userStorage.getType(),
   lat: null,
   long: null,
+  latMark: null,
+  longMark: null,
   menuPollutionTypeStatus: false,
 };
 
@@ -38,11 +42,26 @@ export const userSlice = createSlice({
     setLong: (state, action: PayloadAction<number | null>) => {
       state.long = action.payload;
     },
+    setLatMark: (state, action: PayloadAction<number | null>) => {
+      state.latMark = action.payload;
+    },
+    setLongMark: (state, action: PayloadAction<number | null>) => {
+      state.longMark = action.payload;
+    },
     setMenuPollutionTypeStatus: (state, action: PayloadAction<boolean>) => {
       state.menuPollutionTypeStatus = action.payload;
     },
   },
 });
 
-export const { setToken, setName, setType, setLat, setLong, setMenuPollutionTypeStatus } = userSlice.actions;
+export const {
+  setToken,
+  setName,
+  setType,
+  setLat,
+  setLong,
+  setLatMark,
+  setLongMark,
+  setMenuPollutionTypeStatus,
+} = userSlice.actions;
 export const userReducer = userSlice.reducer;

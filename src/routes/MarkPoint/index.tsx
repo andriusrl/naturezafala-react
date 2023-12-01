@@ -4,10 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
 import SmallMap from "../../shared/components/SmallMap";
+import { useDispatch } from "react-redux";
+import { setLatMark, setLongMark } from "../../features/user/user-slice";
 
 export default function MarkPoint() {
   const { pollutionTypeId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   console.log("pollutionTypeId", pollutionTypeId);
 
@@ -15,7 +18,7 @@ export default function MarkPoint() {
 
   console.log("user markpoint", user);
 
-  type loginType = {
+  type PointType = {
     name: string;
     description: string;
     latitude: number;
@@ -25,15 +28,11 @@ export default function MarkPoint() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<loginType>();
+  } = useForm<PointType>();
 
-  const onSubmit: SubmitHandler<loginType> = async (data) => {
-    console.log(data);
-    console.log("registrado");
-
-    const response = await api.post(
+  const onSubmit: SubmitHandler<PointType> = async (data) => {
+    await api.post(
       "/point",
       {
         name: data.name,
@@ -45,10 +44,10 @@ export default function MarkPoint() {
       { headers: { Authorization: `Bearer ${user.token}` } }
     );
 
+    dispatch(setLatMark(null));
+    dispatch(setLongMark(null));
     navigate("/");
   };
-
-  // console.log(watch("email"))
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -57,7 +56,12 @@ export default function MarkPoint() {
           <h2 className="w-fit mx-auto text-3xl">Marque um ponto:</h2>
 
           {user?.lat && (
-            <SmallMap location={{ lat: user.lat, lng: user.long }} />
+            <SmallMap
+              location={{
+                lat: user?.latMark || user?.lat,
+                lng: user.longMark || user.long,
+              }}
+            />
           )}
 
           <div className="mt-2">
@@ -119,9 +123,16 @@ export default function MarkPoint() {
         <div className="flex justify-center mt-2">
           <button
             type="submit"
-            className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            className="mr-2 animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
           >
             Criar ponto
+          </button>
+
+          <button
+            onClick={() => navigate("/")}
+            className="ml-2 bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+          >
+            Voltar
           </button>
         </div>
       </div>

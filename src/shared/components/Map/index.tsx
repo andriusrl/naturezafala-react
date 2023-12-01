@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   MapContainer,
-  // MapConsumer,
   Marker,
   Popup,
   TileLayer,
@@ -10,14 +9,18 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/images/marker-shadow.png";
-import { Icon, divIcon } from "leaflet";
+import { Icon } from "leaflet";
 import PersonPng from "../../../assets/person.png";
 import TrashPng from "../../../assets/trash.png";
 import api from "../../../config/axios/api";
 import { useDispatch } from "react-redux";
-import { setLat, setLong } from "../../../features/user/user-slice";
+import {
+  setLat,
+  setLatMark,
+  setLong,
+  setLongMark,
+} from "../../../features/user/user-slice";
 import { useLocation, useNavigate } from "react-router-dom";
-const apiUrl = import.meta.env.VITE_SITEURL;
 
 const customPersonIcon = new Icon({
   iconUrl: PersonPng, //icone personalizado para mostrar o tipo de poluição
@@ -56,13 +59,12 @@ export default function Map(props) {
   };
 
   function MyComponent() {
-    console.log("Teste myComponent");
     const map = useMapEvents({
       click: async (location) => {
-        console.log("CLICANDO");
-        console.log(location.latlng);
         await dispatch(setLat(location.latlng.lat));
         await dispatch(setLong(location.latlng.lng));
+        await dispatch(setLatMark(location.latlng.lat));
+        await dispatch(setLongMark(location.latlng.lng));
         props.handleClickMark(location.latlng);
         return map.locate();
       },
@@ -154,13 +156,6 @@ export default function Map(props) {
     }
   };
 
-  const handleMapMove = (event) => {
-    const map = event.target;
-    const center = map.getCenter();
-    console.log("AO MOVER");
-    console.log("Latitude:", center.lat, "Longitude:", center.lng);
-  };
-
   return (
     <div>
       <div id="map">
@@ -177,7 +172,6 @@ export default function Map(props) {
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: "65vh", width: "100wh" }}
-            onMoveEnd={handleMapMove}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
