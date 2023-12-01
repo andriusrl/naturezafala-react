@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import api from "../../config/axios/api";
+import SmallMap from "../../shared/components/SmallMap";
 
 export default function MarkPoint() {
   const { pollutionTypeId } = useParams();
@@ -54,6 +55,10 @@ export default function MarkPoint() {
       <div className="p-2 mx-2 border">
         <div className="flex-col w-fit mx-auto">
           <h2 className="w-fit mx-auto text-3xl">Marque um ponto:</h2>
+
+          {user?.lat && (
+            <SmallMap location={{ lat: user.lat, lng: user.long }} />
+          )}
 
           <div className="mt-2">
             <input
