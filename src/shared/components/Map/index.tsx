@@ -36,10 +36,26 @@ enum typePollution {
   air,
 }
 
-
 export default function Map(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // console.log("location map search");
+  // console.log(props?.location?.lat);
+  // console.log(props?.location?.lng);
+
+  const searchLocation = useState({
+    lat: props?.location?.lat,
+    lng: props?.location?.lng,
+  });
+
+  console.log("searchLocation");
+  console.log(searchLocation);
+
+  console.log("props?.location?.lat");
+  console.log(props?.location?.lat);
+  console.log("props?.location?.lat");
+  console.log(props?.location?.lat);
 
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
@@ -52,8 +68,6 @@ export default function Map(props) {
 
   const getPoints = async () => {
     const response = await api.get(`/point/km/${latitude}/${longitude}/20`);
-    console.log("response", response.data);
-    console.log("response", response.data);
 
     setMarkingPoints(response.data);
   };
@@ -92,7 +106,10 @@ export default function Map(props) {
   console.log("latitude, longitude");
   console.log(latitude, longitude);
 
-  console.log([parseFloat(props?.location?.lat.replace(',', '.')), parseFloat(props?.location?.lng.replace(',', '.'))])
+  console.log([
+    parseFloat(props?.location?.lat.replace(",", ".")),
+    parseFloat(props?.location?.lng.replace(",", ".")),
+  ]);
 
   useEffect(() => {
     const checkPermission = async () => {
@@ -155,10 +172,15 @@ export default function Map(props) {
       <div id="map">
         {latitude && longitude && (
           <MapContainer
-            center={[
-              parseFloat(props?.location?.lat.replace(',', '.')) || latitude,
-              parseFloat(props?.location?.lng.replace(',', '.')) || longitude
-            ]}
+            // center={[
+            //   parseFloat(props?.location?.lat.replace(",", ".")) || latitude,
+            //   parseFloat(props?.location?.lng.replace(",", ".")) || longitude,
+            // ]}
+            center={
+              parseFloat(props?.location?.lat.replace(",", "."))
+                ? [parseFloat(props?.location?.lat.replace(",", ".")), parseFloat(props?.location?.lng.replace(",", "."))]
+                : [latitude, longitude]
+            }
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: "65vh", width: "100wh" }}

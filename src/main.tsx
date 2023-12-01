@@ -35,6 +35,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/mapa/busca/:lat/:lng",
+        element: <MapSearch />,
+      },
+      {
         path: "/cadastrar",
         element: <Register />,
       },
@@ -65,10 +69,6 @@ const router = createBrowserRouter([
       {
         path: "/ponto/procurar/:search",
         element: <PointSearch />,
-      },
-      {
-        path: "/ponto/mapa/:lat/:lng",
-        element: <MapSearch />,
       },
       {
         path: "/meuspontos",

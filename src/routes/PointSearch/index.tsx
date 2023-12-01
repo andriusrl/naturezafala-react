@@ -12,7 +12,7 @@ export default function PointSearch() {
   const { search } = useParams();
   const navigate = useNavigate();
 
-  const [loadingCity, setLoadingCity] = useState(false)
+  const [loadingCity, setLoadingCity] = useState(false);
 
   const user = useAppSelector((state) => state.user);
 
@@ -39,16 +39,15 @@ export default function PointSearch() {
   };
 
   const getCitySearch = async () => {
-    setLoadingCity(true)
-    const response = await api.post(
-      `http://localhost:3012/point/city/search`,
-      { text: search },
-    );
-    setLoadingCity(false)
+    setLoadingCity(true);
+    const response = await api.post(`http://localhost:3012/point/city/search`, {
+      text: search,
+    });
+    setLoadingCity(false);
 
     console.log("CIDADE", response.data);
 
-    setCity(response.data)
+    setCity(response.data);
   };
 
   const handlePage = async (value) => {
@@ -80,16 +79,35 @@ export default function PointSearch() {
         <div className="flex-col w-fit mx-auto">
           <h2 className="w-fit mx-auto text-3xl">Pesquisando: {search}</h2>
         </div>
-        
-        <div className="flex-col w-fit mx-auto">
-          Cidades ou lugares encontrados:
-            {loadingCity && <div>Carregando cidades...</div>}
-            {city && city.map((cityItem) => (<span className="ml-2 p-1 bg-[#944B0A] rounded-lg cursor-pointer">{cityItem?.name}</span>))}
 
+        <div className="flex-col w-fit mx-auto whitespace-pre-wrap">
+          Cidades ou lugares encontrados:
+          {loadingCity && <div>Carregando cidades...</div>}
+          {city &&
+            city.map((cityItem, index) => (
+              <span
+                key={index}
+                onClick={() =>
+                  navigate(
+                    `/mapa/busca/${cityItem.lat.replace(
+                      ".",
+                      ","
+                    )}/${cityItem.lng.replace(".", ",")}`
+                  )
+                }
+                className="ml-2 mt-2 p-1 bg-[#944B0A] rounded-lg cursor-pointer break-all"
+              >
+                {cityItem?.name}
+              </span>
+            ))}
         </div>
         <div className=""></div>
         <div>
-          {points?.items?.length === 0 && (<div className="w-fit mx-auto">Nenhum ponto encontrado com esse nome.</div>)}
+          {points?.items?.length === 0 && (
+            <div className="w-fit mx-auto">
+              Nenhum ponto encontrado com esse nome.
+            </div>
+          )}
           {points &&
             points.items.map((pointItem) => (
               <div key={pointItem.id} className="border mt-1 p-1">
