@@ -37,8 +37,8 @@ export default function MarkPoint() {
       {
         name: data.name,
         description: data.description,
-        latitude: user.lat,
-        longitude: user.long,
+        latitude: user?.latMark?.toFixed(6) || user.lat,
+        longitude: user?.longMark?.toFixed(6) || user.long,
         pollutionType: pollutionTypeId,
       },
       { headers: { Authorization: `Bearer ${user.token}` } }

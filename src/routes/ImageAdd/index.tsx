@@ -107,9 +107,9 @@ export default function ImageAdd() {
               </div>
             )}
           </div>
-          <button className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl">
+          {/* <button className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl">
             Adicionar imagem
-          </button>
+          </button> */}
         </div>
         <div className="flex justify-center mt-2">
           <button

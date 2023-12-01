@@ -50,8 +50,8 @@ export default function Map(props) {
 
   const getPoints = async (lat?: number, lng?: number) => {
     const response = await api.get(
-      `/point/km/${lat?.toFixed(6).replace(".", ",") || latitude}/${
-        lng?.toFixed(6).replace(".", ",") || longitude
+      `/point/km/${lat?.toFixed(6) || latitude}/${
+        lng?.toFixed(6) || longitude
       }/20`
     );
 
