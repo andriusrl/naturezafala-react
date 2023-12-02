@@ -366,14 +366,14 @@ export default function Point() {
 
                 navigate("/");
               }}
-              className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              className="animate-pulse mr-2 bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Voltar
             </button>
             {point?.user && (
               <button
                 onClick={() => setUpdateStatus(true)}
-                className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+                className="animate-pulse ml-2 bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
               >
                 Editar
               </button>

@@ -114,13 +114,13 @@ export default function ImageAdd() {
         <div className="flex justify-center mt-2">
           <button
             onClick={() => navigate(`/ponto/${Number(pointId)}`)}
-            className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            className="bg-slate-400 mr-2 rounded-lg p-2 font-extrabold text-xl"
           >
             Voltar
           </button>
           <button
             onClick={()=>handleUploadImage()}
-            className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            className="bg-slate-400 ml-2 rounded-lg p-2 font-extrabold text-xl"
           >
             Enviar
           </button>
