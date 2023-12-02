@@ -247,7 +247,7 @@ export default function ModerationPoint() {
               renderOnZeroPageCount={null}
             />
           </div>
-          <div className="w-fit mx-auto">
+          {user.type === 1 && <div className="w-fit mx-auto">
             {!point.status ? (
               <button
                 onClick={() => handleActivate(true)}
@@ -263,7 +263,7 @@ export default function ModerationPoint() {
                 Desativar ponto
               </button>
             )}
-          </div>
+          </div>}
 
           <div className="flex justify-center mt-2">
             <button

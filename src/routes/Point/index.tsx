@@ -36,7 +36,7 @@ export default function Point() {
 
   const [updateStatus, setUpdateStatus] = useState(false);
 
-  type loginType = {
+  type pointType = {
     name: string;
     description: string;
     latitude: number;
@@ -46,24 +46,16 @@ export default function Point() {
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
-  } = useForm<loginType>();
-
-  const onSubmit: SubmitHandler<loginType> = async (data) => {
-    console.log(data);
-    console.log("registrado");
-
-    // const response = await api.post("/point", {
-    //   name: data.name,
-    //   description: data.description,
-    //   latitude: user.lat,
-    //   longitude: user.long,
-    //   pollution_type: pollutionTypeId,
-    // });
-
-    // console.log("response", response.data);
-  };
+  } = useForm<pointType>({
+    defaultValues: {
+      name: point?.name,
+      description: point?.description,
+      latitude: point?.latitude,
+      longitude: point?.longitude,
+    }
+  });
 
   const getPoint = async () => {
     const response = await api.get(`/point/${Number(pointId)}`, {
@@ -80,7 +72,30 @@ export default function Point() {
     });
 
     setPoint({ ...response.data, date: dateFormated });
+
+    reset({
+      description: response.data.description,
+      name: response.data.name,
+      latitude: response.data.latitude,
+      longitude: response.data.longitude,
+    })
   };
+
+  const onSubmit: SubmitHandler<pointType> = async (data) => {
+    console.log('onsubmit update point');
+    console.log(data);
+
+    await api.patch("/point", {
+      name: data.name,
+      description: data.description,
+      id: Number(pointId),
+    },
+      { headers: { Authorization: `Bearer ${user.token}` } });
+
+    getPoint();
+    setUpdateStatus(false);
+  };
+
 
   const getCommentByPoint = async () => {
     const response = await api.get(
@@ -136,8 +151,7 @@ export default function Point() {
       getVoteByPoint();
 
       alert(
-        `Você votou que o ponto ${
-          vote ? "foi solucionado" : "não foi solucionado"
+        `Você votou que o ponto ${vote ? "foi solucionado" : "não foi solucionado"
         }`
       );
     } catch (err) {
@@ -171,7 +185,6 @@ export default function Point() {
             <input
               placeholder="Nome para o ponto"
               className="text-2xl pl-2 border border-slate-400 rounded-md"
-              value={point.name}
               {...register("name", { required: true })}
             />
             {errors.name && (
@@ -185,7 +198,6 @@ export default function Point() {
             <input
               placeholder="Descrição do ponto"
               className="text-2xl pl-2 border border-slate-400 rounded-md"
-              value={point.description}
               {...register("description", { required: true })}
             />
             {errors.description && (
@@ -245,7 +257,7 @@ export default function Point() {
           </div>
 
           <hr className="my-2" />
-          
+
           <div className="">
             {/* <h2 className="w-fit mx-auto text-3xl">Fotos</h2> */}
             {images?.length > 0 ? (
@@ -288,22 +300,20 @@ export default function Point() {
             <div className="flex justify-between">
               <button
                 onClick={() => handleVote(true)}
-                className={`${
-                  vote.vote ? "bg-slate-400" : "bg-slate-200"
-                } rounded-lg p-2 font-extrabold text-xl`}
+                className={`${vote.vote ? "bg-slate-400" : "bg-slate-200"
+                  } rounded-lg p-2 font-extrabold text-xl`}
               >
                 Solucionado
               </button>
 
               <button
                 onClick={() => handleVote(false)}
-                className={`${
-                  vote.vote !== undefined
-                    ? !vote.vote
-                      ? "bg-slate-400"
-                      : "bg-slate-200"
+                className={`${vote.vote !== undefined
+                  ? !vote.vote
+                    ? "bg-slate-400"
                     : "bg-slate-200"
-                } rounded-lg p-2 font-extrabold text-xl`}
+                  : "bg-slate-200"
+                  } rounded-lg p-2 font-extrabold text-xl`}
               >
                 Não Solucionado
               </button>
@@ -366,7 +376,7 @@ export default function Point() {
 
                 navigate("/");
               }}
-              className="animate-pulse mr-2 bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              className="mr-2 bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Voltar
             </button>
