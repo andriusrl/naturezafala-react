@@ -354,7 +354,7 @@ export default function Point() {
           <div className="w-fit mx-auto">
             <button
               onClick={() => navigate(`/comentar/${Number(pointId)}`)}
-              className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              className="mt-2 bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Comentar
             </button>
