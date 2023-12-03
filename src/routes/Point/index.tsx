@@ -137,7 +137,7 @@ export default function Point() {
   };
 
   const getImageByPoint = async () => {
-    const response = await api.get(`/image/point/${Number(pointId)}`);
+    const response = await api.get(`/image/point/${Number(pointId)}`, { headers: { Authorization: `Bearer ${user.token}` } });
 
     setImages(response.data);
   };
