@@ -8,11 +8,13 @@ import { Carousel } from "react-responsive-carousel";
 import { ptBR } from "date-fns/locale";
 import { format, set } from "date-fns";
 import ReactPaginate from "react-paginate";
+import { useDispatch } from "react-redux";
 
 export default function Point() {
   const { pointId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch()
 
   const state = location.state;
 
@@ -26,6 +28,17 @@ export default function Point() {
     false: 0,
     vote: undefined,
   });
+
+  const checkLogged = async () => {
+    try {
+      await api.get("/user/logged", {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
 
   const [pageComments, setPageComments] = useState(1);
 
@@ -349,7 +362,17 @@ export default function Point() {
           </div>
           <div className="w-fit mx-auto">
             <button
-              onClick={() => navigate(`/comentar/${Number(pointId)}`)}
+              onClick={async () => {
+                const logged = await checkLogged();
+
+                if (logged) {
+                  return dispatch(
+                    navigate(`/comentar/${Number(pointId)}`)
+                  );
+                }
+                alert("É necessário estar logado para comentar");
+                navigate("/entrar");
+              }}
               className="mt-2 bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
             >
               Comentar
@@ -386,7 +409,8 @@ export default function Point() {
             )}
           </div>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
