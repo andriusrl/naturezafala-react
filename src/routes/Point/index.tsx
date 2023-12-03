@@ -16,8 +16,6 @@ export default function Point() {
 
   const state = location.state;
 
-  console.log("state", state);
-
   const user = useAppSelector((state) => state.user);
 
   const [point, setPoint]: any = useState(undefined);
@@ -28,9 +26,6 @@ export default function Point() {
     false: 0,
     vote: undefined,
   });
-
-  console.log("point");
-  console.log(point);
 
   const [pageComments, setPageComments] = useState(1);
 
@@ -82,8 +77,6 @@ export default function Point() {
   };
 
   const onSubmit: SubmitHandler<pointType> = async (data) => {
-    console.log('onsubmit update point');
-    console.log(data);
 
     await api.patch("/point", {
       name: data.name,
@@ -112,7 +105,7 @@ export default function Point() {
           locale: ptBR,
           useAdditionalDayOfYearTokens: true,
         });
-        return { comment: comment.comment, date: dateFormated };
+        return { comment: comment.comment, date: dateFormated, name: comment.user.name };
       }),
       meta: response.data.meta,
     });
@@ -331,7 +324,10 @@ export default function Point() {
             {comments?.items?.length > 0 ? (
               comments.items.map((comment) => (
                 <div className="flex border mt-1 p-1">
-                  <p className="text-lg">{comment.comment}</p>
+                  <div>
+                    <p className="text-sm h-3">{comment?.name}:</p>
+                    <p className="text-lg ml-2">{comment.comment}</p>
+                  </div>
                   <p className="w-fit ml-auto">{comment.date}</p>
                 </div>
               ))
