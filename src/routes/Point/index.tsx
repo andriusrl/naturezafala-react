@@ -220,7 +220,7 @@ export default function Point() {
             )}
           </div>
 
-          {user.lat === null && user.long === null && (
+          {/* {user.lat === null && user.long === null && (
             <div>
               <div className="mt-2 w-fit mx-auto">
                 <input
@@ -236,7 +236,7 @@ export default function Point() {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex justify-center mt-2">
           <button
