@@ -78,7 +78,7 @@ export default function Accounts() {
 
     setUsers({
       items: response.data.items.map((userItem: any) => {
-        const dateString = new Date(userItem.birthDate).toDateString();
+        const dateString = new Date(userItem.birthdate).toDateString();
 
         const data = new Date(dateString);
 
@@ -133,7 +133,7 @@ export default function Accounts() {
         />
         <button
           onClick={() => setMostVoted(!mostVoted)}
-          className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+          className={`${mostVoted ? "bg-slate-400" : "bg-slate-200" } rounded-lg p-2 font-extrabold text-xl`}
         >
           Mais populares
         </button>
