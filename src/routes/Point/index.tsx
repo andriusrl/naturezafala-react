@@ -102,6 +102,13 @@ export default function Point() {
     setUpdateStatus(false);
   };
 
+  const handleDeleteImage = async (imageId) => {
+    await api.delete(`/image/${imageId}`,
+      { headers: { Authorization: `Bearer ${user.token}` } });
+
+    getImageByPoint()
+  }
+
 
   const getCommentByPoint = async () => {
     const response = await api.get(
@@ -271,6 +278,7 @@ export default function Point() {
                 {images.map((image) => (
                   <div>
                     <img alt={image?.point?.name} src={image?.url} />
+                    {image?.point?.user && <div onClick={() => handleDeleteImage(image.id)} className="absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 p-2 bg-red-600 w-fit h-fit rounded-lg text-white font-extrabold bg-opacity-50 hover:bg-opacity-100 cursor-pointer">Deletar</div>}
                   </div>
                 ))}
               </Carousel>
