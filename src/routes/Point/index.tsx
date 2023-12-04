@@ -285,17 +285,19 @@ export default function Point() {
             ) : (
               <div className="flex-col w-fit mx-auto">
                 <div className="w-fit mx-auto">Nenhuma imagem</div>
-                {point?.user && (
-                  <button
-                    onClick={() => navigate(`/ponto/imagem/${pointId}`)}
-                    className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-                  >
-                    Adicionar imagem
-                  </button>
-                )}
               </div>
+
             )}
           </div>
+
+          {point?.user && <div className="w-fit mx-auto">
+            <button
+              onClick={() => navigate(`/ponto/imagem/${pointId}`)}
+              className="bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+            >
+              Adicionar imagem
+            </button>
+          </div>}
 
           <hr className="my-2" />
 

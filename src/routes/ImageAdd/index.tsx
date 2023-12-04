@@ -40,6 +40,8 @@ export default function ImageAdd() {
     });
 
     getImageByPoint();
+
+    navigate(`/ponto/${Number(pointId)}`);
   };
 
   const handleDeleteImage = async (imageId) => {
@@ -67,9 +69,9 @@ export default function ImageAdd() {
     <div>
       <div className="p-2 mx-2 border flex-col">
         <div className="flex-col w-fit mx-auto">
-          <h2 className="w-fit mx-auto text-3xl">imagens</h2>
+          <h2 className="w-fit mx-auto text-3xl">Envio de imagem</h2>
         </div>
-        <div>
+        {/* <div>
           {images?.length > 0 ? (
             <Carousel>
               {images.map((image) => (
@@ -87,13 +89,14 @@ export default function ImageAdd() {
           ) : (
             <div className="flex-col w-fit mx-auto">Nenhuma imagem</div>
           )}
-        </div>
+        </div> */}
         <div className="w-full flex-col justify-center">
           <div>
             <input
               type="file"
               accept="image/*" // Aceita apenas arquivos de imagem
               onChange={handleImageChange}
+              className=""
             />
 
             {selectedImage && (
@@ -119,7 +122,7 @@ export default function ImageAdd() {
             Voltar
           </button>
           <button
-            onClick={()=>handleUploadImage()}
+            onClick={() => handleUploadImage()}
             className="bg-slate-400 ml-2 rounded-lg p-2 font-extrabold text-xl"
           >
             Enviar
