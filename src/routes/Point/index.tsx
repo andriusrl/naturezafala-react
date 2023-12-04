@@ -262,8 +262,11 @@ export default function Point() {
       {point && (
         <div className="p-2 mx-2 border">
           <div className="flex-col w-fit mx-auto">
-            <h2 className="w-fit mx-auto text-3xl">{point.name}</h2>(
-            {point.date})
+            <h2 className="w-fit mx-auto text-3xl">{point.name}</h2>
+          </div>
+          <div className="flex-col w-fit mx-auto">
+            {point.date}
+
           </div>
           <div className="">
             <p className="text-2xl">{point.description}</p>
