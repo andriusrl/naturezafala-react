@@ -6,9 +6,10 @@ import api from "../../config/axios/api";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { ptBR } from "date-fns/locale";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
 import { useDispatch } from "react-redux";
+import SmallMap from "../../shared/components/SmallMap";
 
 export default function Point() {
   const { pointId } = useParams();
@@ -150,7 +151,6 @@ export default function Point() {
   };
 
   const handleVote = async (vote) => {
-    console.log("handleVote", vote);
     try {
       await api.post(
         `/pointvote/${pointId}`,
@@ -268,6 +268,13 @@ export default function Point() {
           <div className="">
             <p className="text-2xl">{point.description}</p>
           </div>
+
+          {point?.latitude && <SmallMap
+            location={{
+              lat: point?.latitude,
+              lng: point?.longitude,
+            }}
+          />}
 
           <hr className="my-2" />
 
