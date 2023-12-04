@@ -61,7 +61,7 @@ export default function MapSearch() {
 
   return (
     <div>
-      {!user.menuPollutionTypeStatus && (
+      {!user.menuPollutionTypeStatus && lat !== null && (
         <Map
           location={{ lat, lng }}
           handleClickMark={async () => {

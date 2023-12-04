@@ -7,7 +7,9 @@ import { useAppSelector } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
+  setLat,
   setLatMark,
+  setLong,
   setLongMark,
   setMenuPollutionTypeStatus,
 } from "../../features/user/user-slice";
@@ -61,10 +63,41 @@ export default function Home() {
     dispatch(setLongMark(null));
   }, []);
 
+  useEffect(() => {
+    const checkPermission = async () => {
+      try {
+        const permission = await navigator.permissions.query({
+          name: "geolocation",
+        });
+
+        if (permission.state === "granted") {
+          // setPermissionStatus(true);
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              dispatch(setLat(position.coords.latitude))
+              dispatch(setLong(position.coords.longitude))
+            },
+            (error) => {
+              console.error("Erro ao obter a localização:", error);
+            }
+          );
+        }
+      } catch (error) {
+        console.error("Erro ao verificar a permissão:", error);
+      }
+    };
+
+    checkPermission();
+  }, []);
+
+  console.log('user')
+  console.log(user)
+
   return (
     <div>
-      {!user.menuPollutionTypeStatus && (
+      {!user.menuPollutionTypeStatus && user?.lat && user?.long && (
         <Map
+          location={{ lat: String(user.lat).replace('.', ','), lng: String(user.long).replace('.', ',') }}
           handleClickMark={async () => {
             const logged = await checkLogged();
 

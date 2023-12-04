@@ -21,6 +21,7 @@ import {
   setLongMark,
 } from "../../../features/user/user-slice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../hooks";
 
 const customPersonIcon = new Icon({
   iconUrl: PersonPng, //icone personalizado para mostrar o tipo de poluição
@@ -41,6 +42,7 @@ export default function Map(props) {
 
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
+  const user = useAppSelector((state) => state.user);
 
   const [markingPoints, setMarkingPoints] = useState<any[]>([]);
 
@@ -49,9 +51,9 @@ export default function Map(props) {
   );
 
   const getPoints = async (lat?: number, lng?: number) => {
+
     const response = await api.get(
-      `/point/km/${lat?.toFixed(6) || latitude}/${
-        lng?.toFixed(6) || longitude
+      `/point/km/${lat?.toFixed(6) || user.lat}/${lng?.toFixed(6) || user.long
       }/20`
     );
 
@@ -80,11 +82,11 @@ export default function Map(props) {
   }
 
   useEffect(() => {
-    getPoints();
+    props?.location?.lat ? getPoints(parseFloat(props?.location?.lat.replace(',', '.')), parseFloat(props?.location?.lng.replace(',', '.'))) : getPoints();
   }, []);
 
   useEffect(() => {
-    getPoints();
+    props?.lat === null && getPoints();
   }, [latitude, longitude]);
 
   if (latitude && longitude) {
@@ -92,13 +94,6 @@ export default function Map(props) {
     dispatch(setLong(longitude));
   }
 
-  console.log("latitude, longitude");
-  console.log(latitude, longitude);
-
-  console.log([
-    parseFloat(props?.location?.lat.replace(",", ".")),
-    parseFloat(props?.location?.lng.replace(",", ".")),
-  ]);
 
   useEffect(() => {
     const checkPermission = async () => {
@@ -164,9 +159,9 @@ export default function Map(props) {
             center={
               parseFloat(props?.location?.lat.replace(",", "."))
                 ? [
-                    parseFloat(props?.location?.lat.replace(",", ".")),
-                    parseFloat(props?.location?.lng.replace(",", ".")),
-                  ]
+                  parseFloat(props?.location?.lat.replace(",", ".")),
+                  parseFloat(props?.location?.lng.replace(",", ".")),
+                ]
                 : [latitude, longitude]
             }
             zoom={13}
