@@ -64,6 +64,7 @@ export default function PointSearch() {
 
   useEffect(() => {
     getPointSearch();
+    getCitySearch();
   }, [search]);
 
   useEffect(() => {
