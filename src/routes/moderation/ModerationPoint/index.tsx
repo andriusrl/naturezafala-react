@@ -69,7 +69,9 @@ export default function ModerationPoint() {
   };
 
   const getPoint = async () => {
-    const response = await api.get(`/point/${Number(pointId)}`, { headers: { Authorization: `Bearer ${user.token}` } });
+    const response = await api.get(`/point/${Number(pointId)}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
 
     const dateString = new Date(response.data.date).toDateString();
 
@@ -247,23 +249,26 @@ export default function ModerationPoint() {
               renderOnZeroPageCount={null}
             />
           </div>
-          {user.type === 1 && <div className="w-fit mx-auto">
-            {!point.status ? (
-              <button
-                onClick={() => handleActivate(true)}
-                className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-              >
-                Ativar ponto
-              </button>
-            ) : (
-              <button
-                onClick={() => handleActivate(false)}
-                className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
-              >
-                Desativar ponto
-              </button>
-            )}
-          </div>}
+          {user?.type === 1 ||
+            (user?.type === 2 && (
+              <div className="w-fit mx-auto">
+                {!point.status ? (
+                  <button
+                    onClick={() => handleActivate(true)}
+                    className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+                  >
+                    Ativar ponto
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleActivate(false)}
+                    className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+                  >
+                    Desativar ponto
+                  </button>
+                )}
+              </div>
+            ))}
 
           <div className="flex justify-center mt-2">
             <button
