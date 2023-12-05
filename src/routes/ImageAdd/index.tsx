@@ -13,9 +13,8 @@ export default function ImageAdd() {
   const [images, setImages]: any = useState(undefined);
 
   const [selectedImage, setSelectedImage]: null | string = useState(null);
-
-  console.log("selectedImage");
-  console.log(selectedImage);
+  const [loading, setLoading] = useState(false);
+  const [dots, setDots] = useState("...");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -28,6 +27,7 @@ export default function ImageAdd() {
   const handleUploadImage = async () => {
     const blobPromise = await fetch(selectedImage).then((r) => r.blob());
 
+    setLoading(true);
     const formData = new FormData();
 
     formData.append("file", blobPromise);
@@ -40,6 +40,7 @@ export default function ImageAdd() {
     });
 
     getImageByPoint();
+    setLoading(false);
 
     navigate(`/ponto/${Number(pointId)}`);
   };
@@ -63,11 +64,32 @@ export default function ImageAdd() {
 
   useEffect(() => {
     getImageByPoint();
+
+    const intervalId = setInterval(() => {
+      setDots((prevDots) => {
+        switch (prevDots) {
+          case "...":
+            return "..";
+          case "..":
+            return ".";
+          case ".":
+            return "...";
+          default:
+            return "...";
+        }
+      });
+    }, 500);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div>
-      <div className="p-2 mx-2 border flex-col">
+      <div
+        className={`p-2 mx-2 border flex-col ${
+          loading && "pointer-events-none"
+        }`}
+      >
         <div className="flex-col w-fit mx-auto">
           <h2 className="w-fit mx-auto text-3xl">Envio de imagem</h2>
         </div>
@@ -129,6 +151,11 @@ export default function ImageAdd() {
           </button>
         </div>
       </div>
+      {loading && (
+        <div className="p-2 absolute w-[250px] h-fit bg-[#944B0A] rounded-lg text-white font-bold inset-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+          <p>Enviando imagem, aguarde{dots}</p>
+        </div>
+      )}
     </div>
   );
 }
