@@ -40,7 +40,7 @@ export default function PointSearch() {
 
   const getCitySearch = async () => {
     setLoadingCity(true);
-    const response = await api.post(`http://localhost:3012/point/city/search`, {
+    const response = await api.post(`/point/city/search`, {
       text: search,
     });
     setLoadingCity(false);
@@ -81,12 +81,12 @@ export default function PointSearch() {
           <h2 className="w-fit mx-auto text-3xl">Pesquisando: {search}</h2>
         </div>
 
-        <div className="flex-col w-fit mx-auto whitespace-pre-wrap border w-full p-2">
-          Cidades ou lugares encontrados:
+        <div className="w-fit mx-auto border w-full p-2 flex flex-wrap">
+          <div>Cidades ou lugares encontrados:</div>
           {loadingCity && <div>Carregando cidades...</div>}
           {city?.length > 0 &&
             city.map((cityItem, index) => (
-              <span
+              <div
                 key={index}
                 onClick={() =>
                   navigate(
@@ -99,10 +99,10 @@ export default function PointSearch() {
                     }
                   )
                 }
-                className="ml-2 mt-2 p-1 bg-[#944B0A] rounded-lg cursor-pointer break-all"
+                className="ml-2 mt-2 p-1 bg-[#944B0A] rounded-lg cursor-pointer w-fit"
               >
                 {cityItem?.name}-{cityItem?.state}
-              </span>
+              </div>
             ))}
           {city?.length === 0 && (
             <div className="text-red-600">
