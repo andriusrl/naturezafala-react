@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Map from "../../shared/components/Map";
 import MarkPng from "../../assets/mark.png";
 import { useEffect } from "react";
@@ -16,7 +16,9 @@ import {
 
 export default function Home() {
   // const [menuMarkStatus, setMenuMarkStatus] = React.useState(false);
-  const [pollutionTypeList, setPollutionTypeList] = React.useState();
+  const [pollutionTypeList, setPollutionTypeList] = useState();
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
 
   const user = useAppSelector((state) => state.user);
   const navigate = useNavigate();
@@ -74,8 +76,8 @@ export default function Home() {
           // setPermissionStatus(true);
           navigator.geolocation.getCurrentPosition(
             (position) => {
-              dispatch(setLat(position.coords.latitude))
-              dispatch(setLong(position.coords.longitude))
+              dispatch(setLat(position.coords.latitude));
+              dispatch(setLong(position.coords.longitude));
             },
             (error) => {
               console.error("Erro ao obter a localização:", error);
@@ -90,14 +92,64 @@ export default function Home() {
     checkPermission();
   }, []);
 
-  console.log('user')
-  console.log(user)
+  console.log("user");
+  console.log(user);
+
+  const requestLocationPermission = async () => {
+    try {
+      console.log("requestLocationPermission");
+      const permission = await navigator.permissions.query({
+        name: "geolocation",
+      });
+
+      if (permission.state === "prompt") {
+        // Apenas solicite permissão se estiver no estado "prompt"
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+            dispatch(setLat(position.coords.latitude));
+            dispatch(setLong(position.coords.longitude));
+            console.log("setado");
+          },
+          (error) => {
+            console.error("Erro ao obter a localização:", error);
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao verificar a permissão:", error);
+    }
+  };
+
+  console.log("home");
+  console.log(latitude);
+  console.log(longitude);
 
   return (
     <div>
-      {!user.menuPollutionTypeStatus && user?.lat && user?.long && (
+      {!user?.long && (
+        <div className="p-2 mx-2 border">
+          <div>
+            Para ver o mapa na sua localização é necessário permissão para
+            acessar o local clique abaixo para permitir.
+          </div>
+          <div className="flex justify-center">
+            <button
+              className="animate-pulse bg-slate-400 rounded-lg p-2 font-extrabold text-xl"
+              onClick={requestLocationPermission}
+            >
+              Permitir Localização
+            </button>
+          </div>
+        </div>
+      )}
+      {!user.menuPollutionTypeStatus && user?.long && (
         <Map
-          location={{ lat: String(user.lat).replace('.', ','), lng: String(user.long).replace('.', ',') }}
+          location={{
+            lat: String(user.lat).replace(".", ","),
+            lng: String(user.long).replace(".", ","),
+          }}
           handleClickMark={async () => {
             const logged = await checkLogged();
 

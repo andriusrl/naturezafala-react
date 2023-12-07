@@ -12,6 +12,7 @@ import "leaflet/dist/images/marker-shadow.png";
 import { Icon } from "leaflet";
 import PersonPng from "../../../assets/person.png";
 import TrashPng from "../../../assets/trash.png";
+import somPng from "../../../assets/som.png";
 import api from "../../../config/axios/api";
 import { useDispatch } from "react-redux";
 import {
@@ -29,6 +30,11 @@ const customPersonIcon = new Icon({
 });
 
 const customTrashIcon = new Icon({
+  iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
+  iconSize: [32, 32],
+});
+
+const customSomIcon = new Icon({
   iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
   iconSize: [32, 32],
 });
@@ -51,9 +57,9 @@ export default function Map(props) {
   );
 
   const getPoints = async (lat?: number, lng?: number) => {
-
     const response = await api.get(
-      `/point/km/${lat?.toFixed(6) || user.lat}/${lng?.toFixed(6) || user.long
+      `/point/km/${lat?.toFixed(6) || user.lat}/${
+        lng?.toFixed(6) || user.long
       }/20`
     );
 
@@ -82,7 +88,12 @@ export default function Map(props) {
   }
 
   useEffect(() => {
-    props?.location?.lat ? getPoints(parseFloat(props?.location?.lat.replace(',', '.')), parseFloat(props?.location?.lng.replace(',', '.'))) : getPoints();
+    props?.location?.lat
+      ? getPoints(
+          parseFloat(props?.location?.lat.replace(",", ".")),
+          parseFloat(props?.location?.lng.replace(",", "."))
+        )
+      : getPoints();
   }, []);
 
   useEffect(() => {
@@ -93,7 +104,6 @@ export default function Map(props) {
     dispatch(setLat(latitude));
     dispatch(setLong(longitude));
   }
-
 
   useEffect(() => {
     const checkPermission = async () => {
@@ -159,9 +169,9 @@ export default function Map(props) {
             center={
               parseFloat(props?.location?.lat.replace(",", "."))
                 ? [
-                  parseFloat(props?.location?.lat.replace(",", ".")),
-                  parseFloat(props?.location?.lng.replace(",", ".")),
-                ]
+                    parseFloat(props?.location?.lat.replace(",", ".")),
+                    parseFloat(props?.location?.lng.replace(",", ".")),
+                  ]
                 : [latitude, longitude]
             }
             zoom={13}
@@ -193,7 +203,9 @@ export default function Map(props) {
                 <Marker
                   key={point.id}
                   position={[point.latitude, point.longitude]}
-                  icon={customTrashIcon}
+                  icon={
+                    point.pollutionType === 5 ? customSomIcon : customTrashIcon
+                  }
                 >
                   <Popup>
                     {point.name},{point.description} <br />

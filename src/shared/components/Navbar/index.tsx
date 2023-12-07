@@ -179,25 +179,24 @@ const Navbar = () => {
             </div>
           </>
         )}
-        {user?.type === 1 ||
-          (user?.type === 2 && (
-            <>
-              <span className="mx-2 flex-1/3">|</span>
-              <span
-                onClick={() => navigate("/moderacao/imagem")}
-                className="bg-slate-200 rounded-lg p-2 cursor-pointer"
-              >
-                Imagens
-              </span>
-              <span className="mx-2 flex-1/3">|</span>
-              <span
-                onClick={() => navigate("/moderacao/ponto")}
-                className="bg-slate-200 rounded-lg p-2 cursor-pointer"
-              >
-                Pontos
-              </span>
-            </>
-          ))}
+        {(user?.type === 1 || user?.type === 2) && (
+          <>
+            <span className="mx-2 flex-1/3">|</span>
+            <span
+              onClick={() => navigate("/moderacao/imagem")}
+              className="bg-slate-200 rounded-lg p-2 cursor-pointer"
+            >
+              Imagens
+            </span>
+            <span className="mx-2 flex-1/3">|</span>
+            <span
+              onClick={() => navigate("/moderacao/ponto")}
+              className="bg-slate-200 rounded-lg p-2 cursor-pointer"
+            >
+              Pontos
+            </span>
+          </>
+        )}
         {!showLoginRegister && (
           <>
             <span className="mx-2">|</span>
