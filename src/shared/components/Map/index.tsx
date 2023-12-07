@@ -12,7 +12,7 @@ import "leaflet/dist/images/marker-shadow.png";
 import { Icon } from "leaflet";
 import PersonPng from "../../../assets/person.png";
 import TrashPng from "../../../assets/trash.png";
-import somPng from "../../../assets/som.png";
+import SomPng from "../../../assets/som.png";
 import api from "../../../config/axios/api";
 import { useDispatch } from "react-redux";
 import {
@@ -31,12 +31,12 @@ const customPersonIcon = new Icon({
 
 const customTrashIcon = new Icon({
   iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
-  iconSize: [32, 32],
+  iconSize: [40, 40],
 });
 
 const customSomIcon = new Icon({
-  iconUrl: TrashPng, //icone personalizado para mostrar o tipo de poluição
-  iconSize: [32, 32],
+  iconUrl: SomPng, //icone personalizado para mostrar o tipo de poluição
+  iconSize: [40, 40],
 });
 
 export default function Map(props) {
