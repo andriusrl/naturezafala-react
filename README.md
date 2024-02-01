@@ -1,3 +1,15 @@
+## Description
+
+Trabalho de Conclusão de Curso
+apresentado ao Curso de Engenharia de
+Software como pré-requisito para
+obtenção do título de Bacharel em
+Engenharia de Software.
+
+## Video
+
+https://drive.google.com/file/d/1wNHAuSysaDedr2z69eKDIH0yhpK2hiF8/view?usp=sharing
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
